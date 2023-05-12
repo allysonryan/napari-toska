@@ -1,0 +1,28 @@
+name: napari-toska
+display_name: Napari Topological Skeleton Analysis
+contributions:
+  commands:
+    - id: napari-toska.make_sample_data
+      python_name: napari_toska._sample_data:make_sample_data
+      title: Load sample data from Napari Topological Skeleton Analysis
+    - id: napari-toska.make_qwidget
+      python_name: napari_toska._widget:ExampleQWidget
+      title: Make example QWidget
+    - id: napari-toska.make_magic_widget
+      python_name: napari_toska._widget:example_magic_widget
+      title: Make example magic widget
+    - id: napari-toska.make_func_widget
+      python_name: napari_toska._widget:example_function_widget
+      title: Make example function widget
+  sample_data:
+    - command: napari-toska.make_sample_data
+      display_name: Napari Topological Skeleton Analysis
+      key: unique_id.1
+  widgets:
+    - command: napari-toska.make_qwidget
+      display_name: Example QWidget
+    - command: napari-toska.make_magic_widget
+      display_name: Example Magic Widget
+    - command: napari-toska.make_func_widget
+      autogenerate: true
+      display_name: Example Function Widget
