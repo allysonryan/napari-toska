@@ -355,36 +355,45 @@ def n4_parse_skel_2d(skel, y_dir, x_dir):
 
 ###-----------------------------------------------
 
-def n8_parse_skel_2d(skel, y_dir, x_dir):
-    
-    '''Parameters:
-       -----------
-       
-       skel:
-       y_dir:
-       x_dir:
-       
-       Returns:
-       --------
-       
-       coords:
-       e_pts:
-       b_pts:
-       brnch:
-       brnch_ids:
-       brnch_lengths:'''
-    
+
+def n8_parse_skel_2d(skel: "napari.types.LabelsData",
+                     y_dir: int = 0,
+                     x_dir: int = 1) -> "napari.types.LabelsData":
+    """
+    Label the skeleton of a 2D object with 8-connectivity.
+
+    Parameters
+    ----------
+    skel : napari.types.LabelsData
+        A 2D skeletonized image
+    y_dir : int, optional
+        The direction of the y-axis, by default 0
+    x_dir : int, optional
+        The direction of the x-axis, by default 1
+
+    Returns
+    -------
+    skeleton_labels : napari.types.LabelsData
+        A labeled image with the same shape as `skel` where each pixel is
+        labeled as either an end point (1), a branch point (2), or a
+        skeleton pixel (3).
+
+    """
+
     coords = np.asarray(np.where(skel)).T
     e_pts, b_pts = n8_pt_classification(skel, coords, y_dir, x_dir)
-    
+
     brnch = np.copy(skel)
     for i in b_pts:
-        brnch[i[0],i[1]] = 0
-        
-    brnch, brnch_ids = label(brnch, structure = np.ones((3,3), dtype = int))
+        brnch[i[0], i[1]] = 0
+    
+    brnch, brnch_ids = label(
+        brnch,
+        structure=np.ones((3, 3), dtype=int)
+        )
     brnch_ids = tuple(np.arange(1, brnch_ids+1))
     brnch_lengths = tuple([np.sum(brnch[brnch == i].astype(bool).astype(np.uint16)) for i in brnch_ids])
-    
+
     return coords, e_pts, b_pts, brnch, brnch_ids, brnch_lengths
 
 ###-----------------------------------------------
@@ -663,9 +672,74 @@ def n26_relabel_brnch_pts(branch_pts, branches_shape, branches_dtype):
 
 ###-----------------------------------------------
 
+def generate_adjacency_matrix(e_pts, bp_img, branches, structure):
+    """
+    Generate an adjacency matrix for a skeletonized object.
+
+    Parameters
+    ----------
+    e_pts : list or tuple of tuples
+        Each tuple is the coordinates of an end point in the topological
+        skeleton of an object.
+    bp_img : numpy.ndarray
+        A labeled image with the same shape as `branches` where each pixel is
+        labeled as belonging to a specific branching point or brnaching cluster.
+    branches : numpy.ndarray
+        A labeled image with the same shape as `bp_img` where each pixel is
+        labeled as belonging to a specific branch.
+    structure : numpy.ndarray
+        A topological-neighborhood-specific structuring element used to dilate the
+        branching points in `bp_img` to identify which branches are connected to
+        each branching point.
+
+    Returns
+    -------
+    adj_mat : numpy.ndarray
+        An adjacency matrix where each row represents a branching- or endpoint and
+        each column represents a branch. A value of 1 indicates that the
+        branching point or endpoint is connected to the branch.
+    """
+    n_bp = np.max(bp_img)
+    m_branches = np.max(branches)
+
+    adj_bps = np.zeros((n_bp, m_branches), dtype = int)
+    for i in range(n_bp):
+        
+        mask = bp_img == i+1
+        mask = binary_dilation(mask,structure=structure, iterations=1).astype(bool)
+        coords = np.asarray(np.where(mask)).transpose()
+        touches = np.zeros((coords.shape[0]), dtype = int)
+        
+        for j in range(coords.shape[0]):
+            y,x = coords[j]
+            touches[j] = branches[y,x]
+        
+        touches = np.unique(touches)
+        touches = touches[touches > 0]
+        #print('bp', i, '-->', touches)
+        
+        for k in touches:
+            adj_bps[i,k-1] = 1
+
+    e_pts = np.asarray(e_pts)
+    n_ep = e_pts.shape[0]
+        
+    adj_eps = np.zeros((n_ep, m_branches), dtype = int)
+    for i in range(n_ep):
+        y,x = e_pts[i,...]
+        branch_id = branches[y,x]
+        adj_eps[i, branch_id-1] = 1
+        
+    adj_mat = np.concatenate((adj_bps, adj_eps), axis = 0)
+    
+    return adj_mat        
+
+
 def n4_adjacency_matrix(e_pts, bp_img, n_bp, branches, m_branches):
     
     '''...'''
+
+    e_pts = np.argwhere(input_image == 1)
     
     adj_bps = np.zeros((n_bp, m_branches), dtype = int)
     
