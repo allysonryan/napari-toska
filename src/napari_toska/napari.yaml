@@ -14,6 +14,9 @@ contributions:
     - id: napari-toska.make_func_widget
       python_name: napari_toska._widget:example_function_widget
       title: Make example function widget
+    - id: napari-toska.labeled_skeleton
+      python_name: napari_toska._labeled_skeletonization:generate_labeled_skeletonization
+      title: Make labeled skeleton image
   sample_data:
     - command: napari-toska.make_sample_data
       display_name: Napari Topological Skeleton Analysis
@@ -26,3 +29,6 @@ contributions:
     - command: napari-toska.make_func_widget
       autogenerate: true
       display_name: Example Function Widget
+    - command: napari-toska.labeled_skeleton
+      autogenerate: true
+      display_name: Make labeled skeleton image
