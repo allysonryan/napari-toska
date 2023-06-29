@@ -1,7 +1,8 @@
 import numpy as np
+import networkx as nx
 
 
-def calculate_all_adjancency_matrices(
+def create_all_adjancency_matrices(
         labelled_skeletons: "napari.types.LabelsData",
         parsed_skeletons: "napari.types.LabelsData",
         neighborhood: str
@@ -61,22 +62,10 @@ def create_adjacency_matrix(labelled_skeletons: "napari.types.LabelsData",
         An adjacency matrix for the skeleton.
     """
     from scipy import ndimage
-    from skimage.morphology import disk, ball, square
     from ._backend_toska_functions import _generate_adjacency_matrix
+    from ._utils import get_neighborhood
 
-    if len(labelled_skeletons.shape) == 2:
-        if neighborhood == "n4":
-            structure = disk(1)
-        elif neighborhood == "n8":
-            structure = np.ones((3, 3))
-
-    elif len(labelled_skeletons.shape) == 3:
-        if neighborhood == "n6":
-            structure = ball(1)
-        elif neighborhood == "n18":
-            structure = np.stack([disk(1), square(1), disk(1)])
-        elif neighborhood == "n26":
-            structure = np.ones((3, 3, 3))
+    structure = get_neighborhood(neighborhood)
 
     # Retrieve branch points
     branch_points = labelled_skeletons == 3
