@@ -672,7 +672,7 @@ def n26_relabel_brnch_pts(branch_pts, branches_shape, branches_dtype):
 
 ###-----------------------------------------------
 
-def generate_adjacency_matrix(e_pts, bp_img, branches, structure):
+def _generate_adjacency_matrix(e_pts, bp_img, branches, structure):
     """
     Generate an adjacency matrix for a skeletonized object.
 

@@ -44,7 +44,7 @@ def create_adjacency_matrix(labelled_skeletons: "napari.types.LabelsData",
                             neighborhood: str = "n4") -> np.ndarray:
     from scipy import ndimage
     from skimage.morphology import disk, ball, square
-    from ._backend_toska_functions import generate_adjacency_matrix
+    from ._backend_toska_functions import _generate_adjacency_matrix
 
     if len(labelled_skeletons.shape) == 2:
         if neighborhood == "n4":
