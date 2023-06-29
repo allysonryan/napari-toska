@@ -5,7 +5,19 @@ contributions:
     - id: napari-toska.labeled_skeleton
       python_name: napari_toska._labeled_skeletonization:generate_labeled_skeletonization
       title: Make labeled skeleton image
+    - id: napari-toska.parse_single_skeletons
+      python_name: napari_toska._labeled_skeletonization:parse_single_skeletons
+      title: Parse single skeletons
+    - id: napari-toska.parse_all_skeletons
+      python_name: napari_toska._labeled_skeletonization:parse_all_skeletons
+      title: Parse all skeletons
   widgets:
     - command: napari-toska.labeled_skeleton
       autogenerate: true
       display_name: Make labeled skeleton image
+    - command: napari-toska.parse_single_skeletons
+      autogenerate: true
+      display_name: Parse single skeletons
+    - command: napari-toska.parse_all_skeletons
+      autogenerate: true
+      display_name: Parse all skeletons
