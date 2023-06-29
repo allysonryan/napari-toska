@@ -131,3 +131,48 @@ def parse_single_skeleton(skel: "napari.types.LabelsData",
             skeleton_labels[pt[0], pt[1], pt[2]] = 1
 
     return skeleton_labels
+
+
+def label_branches(parsed_skeletons: "napari.types.LabelsData",
+                   labelled_skeletons: "napari.types.LabelsData",
+                   neighborhood: str
+                   ) -> "napari.types.LabelsData":
+    """
+    Label the branches of a skeleton image.
+
+    The branch labels start with 1 and increase for each branch.
+
+    Parameters
+    ----------
+    parsed_skeletons : napari.types.LabelsData
+        A skeleton image where each pixel is labelled according to the
+        point type which can be either a terminal point (1), a branching
+        point (3), or a chain point (2).
+    labelled_skeletons : napari.types.LabelsData
+        A skeleton image with each skeleton carrying a unique label.
+
+    Returns
+    -------
+    branch_label_image : napari.types.LabelsData
+        A skeleton image where each branch is labelled with a skeleton-wise
+        unique label. The branch labels of each skeleton start with 1 and
+        increase for each branch up to the number of branches in the
+        skeleton.
+    """
+    import numpy as np
+    from scipy import ndimage
+    from ._utils import get_neighborhood
+
+    structure = get_neighborhood(neighborhood)
+
+    branch_image = parsed_skeletons == 2
+    skeletons_ids = np.arange(1, np.max(labelled_skeletons) + 1)
+
+    branch_label_image = np.zeros_like(labelled_skeletons, dtype=int)
+    for i in skeletons_ids:
+        sub_skeleton_branches = branch_image * (labelled_skeletons == i)
+        branch_label_image = ndimage.label(
+            sub_skeleton_branches,
+            structure=structure)[0] + branch_label_image
+
+    return branch_label_image
