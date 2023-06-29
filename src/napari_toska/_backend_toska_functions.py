@@ -723,16 +723,19 @@ def _generate_adjacency_matrix(e_pts, bp_img, branches, structure):
 
     e_pts = np.asarray(e_pts)
     n_ep = e_pts.shape[0]
-        
-    adj_eps = np.zeros((n_ep, m_branches), dtype = int)
-    for i in range(n_ep):
-        y,x = e_pts[i,...]
-        branch_id = branches[y,x]
-        adj_eps[i, branch_id-1] = 1
-        
-    adj_mat = np.concatenate((adj_bps, adj_eps), axis = 0)
     
-    return adj_mat        
+    # Check if there are any branches in the network
+    if m_branches == 0:
+        return np.zeros((n_ep, 0), dtype = int)
+    else:
+        adj_eps = np.zeros((n_ep, m_branches), dtype = int)
+        for i in range(n_ep):
+            y,x = e_pts[i,...]
+            branch_id = branches[y,x]
+            adj_eps[i, branch_id-1] = 1
+        adj_mat = np.concatenate((adj_bps, adj_eps), axis = 0)
+    
+        return adj_mat        
 
 
 def n4_adjacency_matrix(e_pts, bp_img, n_bp, branches, m_branches):
