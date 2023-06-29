@@ -72,6 +72,6 @@ def create_adjacency_matrix(labelled_skeletons: "napari.types.LabelsData",
     branches, _ = ndimage.label(labelled_skeletons == 2, structure=structure)
 
     # generate adjacency matrix
-    M = generate_adjacency_matrix(end_points, branch_points, branches, structure)
+    M = _generate_adjacency_matrix(end_points, branch_points, branches, structure)
 
     return M
