@@ -15,25 +15,57 @@ def generate_labeled_skeletonization(label_image:'napari.types.LabelsData')->'na
     
     label_image: napari.types.LabelsData
         Input napari version of numpy.ndarray containing integer labels of an instance segmentation.
-    
+
     Returns:
     --------
-    
+
     labeled_skeletons: napari.types.LabelsData
         A skeleton image multiplied by the respective label of the object of origin in the input label image.
     '''
-    
+
     from skimage.morphology import skeletonize
-    
+
     binary_skeleton = skeletonize(label_image.astype(bool)).astype(int)
     binary_skeleton = binary_skeleton / np.amax(binary_skeleton)
     labeled_skeletons = binary_skeleton * label_image
-    
+
     return labeled_skeletons.astype(int)
 
 
-def parse_skeleton(skel: "napari.types.LabelsData",
-                   neighborhood: str = "n4") -> "napari.types.LabelsData":
+def parse_all_skeletons(skeleton_image: "napari.types.LabelsData",
+                        neighborhood: str = "n4") -> "napari.types.LabelsData":
+    from skimage import measure
+
+    properties = measure.regionprops(skeleton_image)
+    parsed_skeletons_assembly = np.zeros_like(skeleton_image)
+
+    for prop in properties[1:]:
+        sub_image = prop["image"]
+        sub_bbox = prop["bbox"]
+        sub_label = prop["label"]
+
+        # pad subimages to avoid kernel failure on edges
+        padded_sub_skeleton = np.pad(sub_image, 1)
+        parsed_sub_skeleton = parse_single_skeleton(padded_sub_skeleton * sub_label,
+                                                    sub_label,
+                                                    neighborhood)
+
+        # remove padding for 2D or 3D image and add to assembly
+        if len(skeleton_image.shape) == 2:
+            unpadded_image = parsed_sub_skeleton[1: -1, 1: -1]
+            y0, x0, y1, x1 = sub_bbox
+            parsed_skeletons_assembly[y0: y1, x0: x1] = unpadded_image
+        elif len(skeleton_image.shape) == 3:
+            unpadded_image = parsed_sub_skeleton[1: -1, 1: -1, 1: -1]
+            y0, x0, z0, y1, x1, z1 = sub_bbox
+            parsed_skeletons_assembly[z0: z1, y0: y1, x0: x1] = unpadded_image
+
+    return parsed_skeletons_assembly
+
+
+def parse_single_skeleton(skel: "napari.types.LabelsData",
+                          label: int,
+                          neighborhood: str = "n4") -> "napari.types.LabelsData":
     """
     Label the skeleton of a 2D or 3D object with 4-, 6-, 8-, 18-, or 26-connectivity.
 
@@ -41,15 +73,11 @@ def parse_skeleton(skel: "napari.types.LabelsData",
     ----------
     skel : napari.types.LabelsData
         A skeletonized image
+    label : int
+        The label of the object whose skeleton is to be labeled.
     neighborhood : str
         The neighborhood connectivity of the skeleton. Can be "n4", "n6", "n8", "n18", or "n26".
-    z_dir : int, optional
-        The direction of the z-axis, by default 0
-    y_dir : int, optional
-        The direction of the y-axis, by default 1
-    x_dir : int, optional
-        The direction of the x-axis, by default 2
-        
+
     Returns
     -------
     skeleton_labels : napari.types.LabelsData
@@ -62,6 +90,9 @@ def parse_skeleton(skel: "napari.types.LabelsData",
                                            n6_parse_skel_3d,
                                            n18_parse_skel_3d,
                                            n26_parse_skel_3d)
+
+    # retrieve chosen skeleton from image
+    skel = skel == label
 
     if len(skel.shape) == 2:
         x_dir = 1
