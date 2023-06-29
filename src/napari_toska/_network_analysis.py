@@ -42,6 +42,24 @@ def calculate_all_adjancency_matrices(
 
 def create_adjacency_matrix(labelled_skeletons: "napari.types.LabelsData",
                             neighborhood: str = "n4") -> np.ndarray:
+    """
+    Create an adjacency matrix for a given skeleton image.
+
+    Parameters:
+    -----------
+    labelled_skeletons: napari.types.LabelsData
+        A skeleton image where each pixel is labelled according to the
+        point type which can be either a terminal point (1), a branching
+        point (3), or a chain point (2).
+    neighborhood: str
+        The neighborhood connectivity of the skeleton. Can be "n4",
+        "n6", "n8", "n18", or "n26".
+
+    Returns:
+    --------
+    M: np.ndarray
+        An adjacency matrix for the skeleton.
+    """
     from scipy import ndimage
     from skimage.morphology import disk, ball, square
     from ._backend_toska_functions import _generate_adjacency_matrix
