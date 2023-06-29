@@ -962,28 +962,6 @@ def n26_adjacency_matrix(e_pts, bp_img, n_bp, branches, m_branches):
 
 ###-----------------------------------------------
 
-def skeleton_network(adj_mat, weights):
-    
-    '''developed using weights = skel_brnch_lengths'''
-    
-    nodes = adj_mat
-    weighted_edges = []
-    
-    for i in range(nodes.shape[1]):
-        edge = list(np.where(nodes[:,i])[0])
-        if len(edge) == 2:
-            edge.append(weights[i])
-            weighted_edges.append(tuple(edge))
-        else:
-            continue
-    
-    G = nx.Graph()
-    G.add_weighted_edges_from(weighted_edges)
-    
-    return nodes, weighted_edges, G
-
-###-----------------------------------------------
-
 def skeleton_spine_search(nodes, G):
     
     '''...'''

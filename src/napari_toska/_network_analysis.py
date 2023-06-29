@@ -93,3 +93,45 @@ def create_adjacency_matrix(labelled_skeletons: "napari.types.LabelsData",
     M = _generate_adjacency_matrix(end_points, branch_points, branches, structure)
 
     return M
+
+
+def convert_adjacency_matrix_to_graph(
+        adj_mat: np.ndarray,
+        weights: np.ndarray = None
+) -> nx.Graph:
+    """
+    Convert an adjacency matrix to a networkx graph.
+
+    Parameters
+    ----------
+    adj_mat : numpy.ndarray
+        An adjacency matrix where each row represents a branching- or endpoint and
+        each column represents a branch. A value of 1 indicates that the
+        branching point or endpoint is connected to the branch.
+    weights : numpy.ndarray, optional
+        An array of weights for each branch, by default 1 (unweighted)
+
+    Returns
+    -------
+    G : networkx.Graph
+        A networkx graph where each node represents a branching- or endpoint and
+        each edge represents a branch.
+    """
+    if weights is None:
+        weights = np.ones((adj_mat.shape[1]))
+
+    nodes = adj_mat
+    weighted_edges = []
+
+    for i in range(nodes.shape[1]):
+        edge = list(np.where(nodes[:, i])[0])
+        if len(edge) == 2:
+            edge.append(weights[i])
+            weighted_edges.append(tuple(edge))
+        else:
+            continue
+
+    G = nx.Graph()
+    G.add_weighted_edges_from(weighted_edges)
+
+    return G
