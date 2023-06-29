@@ -39,7 +39,7 @@ def parse_all_skeletons(skeleton_image: "napari.types.LabelsData",
     properties = measure.regionprops(skeleton_image)
     parsed_skeletons_assembly = np.zeros_like(skeleton_image)
 
-    for prop in properties[1:]:
+    for prop in properties:
         sub_image = prop["image"]
         sub_bbox = prop["bbox"]
         sub_label = prop["label"]
