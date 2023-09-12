@@ -3,7 +3,7 @@ import networkx as nx
 
 
 def create_all_adjancency_matrices(
-        labelled_skeletons: "napari.types.LabelsData",
+        labeled_skeletons: "napari.types.LabelsData",
         parsed_skeletons: "napari.types.LabelsData",
         neighborhood: str
 ):
@@ -12,7 +12,7 @@ def create_all_adjancency_matrices(
 
     Parameters:
     -----------
-    labelled_skeletons: napari.types.LabelsData
+    labeled_skeletons: napari.types.LabelsData
         A skeleton image with each skeleton carrying a unique label.
     parsed_skeletons: napari.types.LabelsData
         A skeleton image where each pixel is labelled according to the
@@ -27,28 +27,28 @@ def create_all_adjancency_matrices(
     adjacency_matrices: list
         A list of adjacency matrices for each skeleton in the image.
     """
-    skeleton_ids = np.unique(labelled_skeletons)[1:]
+    skeleton_ids = np.unique(labeled_skeletons)[1:]
     adjacency_matrices = [0] * len(skeleton_ids)
 
     skeleton_counter = 0
     for skeleton_id in skeleton_ids:
         # create a sub-skeleton image with only one skeleton with values
         # 0 (background) and 1 (skeleton end point) etc.
-        sub_skeleton = parsed_skeletons * (labelled_skeletons == skeleton_id)
+        sub_skeleton = parsed_skeletons * (labeled_skeletons == skeleton_id)
         adjacency_matrices[skeleton_counter] = create_adjacency_matrix(sub_skeleton, neighborhood)
         skeleton_counter += 1
 
     return adjacency_matrices
 
 
-def create_adjacency_matrix(labelled_skeletons: "napari.types.LabelsData",
+def create_adjacency_matrix(labeled_skeletons: "napari.types.LabelsData",
                             neighborhood: str = "n4") -> np.ndarray:
     """
     Create an adjacency matrix for a given skeleton image.
 
     Parameters:
     -----------
-    labelled_skeletons: napari.types.LabelsData
+    labeled_skeletons: napari.types.LabelsData
         A skeleton image where each pixel is labelled according to the
         point type which can be either a terminal point (1), a branching
         point (3), or a chain point (2).
@@ -68,15 +68,15 @@ def create_adjacency_matrix(labelled_skeletons: "napari.types.LabelsData",
     structure = get_neighborhood(neighborhood)
 
     # Retrieve branch points
-    branch_points = labelled_skeletons == 3
+    branch_points = labeled_skeletons == 3
     branch_points, _ = ndimage.label(
         branch_points, structure=structure)
 
     # Retrieve end points
-    end_points = np.asarray(np.where(labelled_skeletons == 1)).T
+    end_points = np.asarray(np.where(labeled_skeletons == 1)).T
 
     # Retrieve branches image
-    branches, _ = ndimage.label(labelled_skeletons == 2, structure=structure)
+    branches, _ = ndimage.label(labeled_skeletons == 2, structure=structure)
 
     # generate adjacency matrix
     M = _generate_adjacency_matrix(end_points, branch_points, branches, structure)
@@ -124,3 +124,49 @@ def convert_adjacency_matrix_to_graph(
     G.add_weighted_edges_from(weighted_edges)
 
     return G
+
+
+def create_spine_image(
+        adjacency_matrix: np.ndarray,
+        labeled_branches: "napari.types.LabelsData"
+        ) -> "napari.types.LabelsData":
+    """
+    Create an image where the pixels of the spine are labeled with the
+    branch ID of the branch they belong to.
+
+    Parameters
+    ----------
+    labeled_branches : napari.types.LabelsData
+        A labeled image with labelled skeleton branches.
+    img_spine_ids : list
+        A list of branch labels that represent a path in a skeleton graph.
+
+    Returns
+    -------
+    img_spine : napari.types.LabelsData
+        A labeled image with the same shape as `labeled_branches` where
+        the pixels of the spine are labeled with the branch ID of the branch
+        they belong to.
+    """
+    from ._backend_toska_functions import (
+        skeleton_spine_search,
+        find_spine_edges,
+        map_spine_edges_to_skeleton
+    )
+
+    G = convert_adjacency_matrix_to_graph(adjacency_matrix)
+    spine_path_nodes, spine_path_length = skeleton_spine_search(
+        adjacency_matrix, G)
+
+    spine_edges = find_spine_edges(spine_path_nodes)
+    spine_edges = map_spine_edges_to_skeleton(
+        spine_edges,
+        adjancency_matrix=adjacency_matrix,
+        branch_labels=np.arange(1, np.amax(labeled_branches)))
+
+    img_spine = np.zeros_like(labeled_branches)
+
+    for i in spine_edges:
+        img_spine[labeled_branches == i] = i
+
+    return img_spine

@@ -699,11 +699,20 @@ def _generate_adjacency_matrix(e_pts, bp_img, branches, structure):
         each column represents a branch. A value of 1 indicates that the
         branching point or endpoint is connected to the branch.
     """
+    # find number of branch points and branches
     n_bp = np.max(bp_img)
     m_branches = np.max(branches)
 
-    adj_bps = np.zeros((n_bp, m_branches), dtype = int)
-    for i in range(n_bp):
+    # find the coordinates of each endpoint and number of endpoints
+    # also give every end point a unique label
+    e_pts = np.asarray(e_pts)
+    n_ep = e_pts.shape[0]
+    for i in range(n_ep):
+        bp_img[e_pts[i][0],
+               e_pts[i][1]] = n_bp + 1 + i
+
+    adjancency_matrix = np.zeros((n_bp + n_ep, m_branches), dtype = int)
+    for i in range(n_bp + n_ep):
         
         mask = bp_img == i+1
         mask = binary_dilation(mask,structure=structure, iterations=1).astype(bool)
@@ -716,26 +725,11 @@ def _generate_adjacency_matrix(e_pts, bp_img, branches, structure):
         
         touches = np.unique(touches)
         touches = touches[touches > 0]
-        #print('bp', i, '-->', touches)
         
         for k in touches:
-            adj_bps[i,k-1] = 1
+            adjancency_matrix[i,k-1] = 1
 
-    e_pts = np.asarray(e_pts)
-    n_ep = e_pts.shape[0]
-    
-    # Check if there are any branches in the network
-    if m_branches == 0:
-        return np.zeros((n_ep, 0), dtype = int)
-    else:
-        adj_eps = np.zeros((n_ep, m_branches), dtype = int)
-        for i in range(n_ep):
-            y,x = e_pts[i,...]
-            branch_id = branches[y,x]
-            adj_eps[i, branch_id-1] = 1
-        adj_mat = np.concatenate((adj_bps, adj_eps), axis = 0)
-    
-        return adj_mat        
+    return adjancency_matrix        
 
 
 def n4_adjacency_matrix(e_pts, bp_img, n_bp, branches, m_branches):
@@ -962,9 +956,29 @@ def n26_adjacency_matrix(e_pts, bp_img, n_bp, branches, m_branches):
 
 ###-----------------------------------------------
 
-def skeleton_spine_search(nodes, G):
-    
-    '''...'''
+def skeleton_spine_search(nodes: np.ndarray, G: nx.Graph):
+    """
+    Search for the longest path in a skeleton graph that connects two
+    end points.
+
+    Parameters
+    ----------
+    nodes : numpy.ndarray
+        A 2D adjacency matrix where each row represents a node and each column
+        represents an edge. A value of 1 indicates that the node is connected
+        to the edge.
+    G : networkx.Graph
+        A graph representation of the skeleton.
+
+    Returns
+    -------
+    spine_path : tuple
+        A tuple of node IDs that represent the longest path in the skeleton
+        graph.
+    spine_length : float
+        The length of the longest path in the skeleton graph between two nodes
+        of degree 1 (aka end points)
+    """
     
     node_degrees = np.sum(nodes, axis = 1)
     ep_pairs = tuple(combinations(tuple(np.where(node_degrees == 1)[0]),2))
@@ -989,40 +1003,59 @@ def skeleton_spine_search(nodes, G):
 
 ###-----------------------------------------------
 
-def spine_edges(spine_nodes):
+def find_spine_edges(spine_path: list):
+    """
+    Create a list of edges from a list of nodes.
+
+    Parameters
+    ----------
+    spine_path : list
+        A list of node IDs that represent a path in a skeleton graph.
+
+    Returns
+    -------
+    spine_path_edges : list
+        A list of edges that represent a path in a skeleton graph.
+    """
+    spine_path_edges = []
     
-    edges = []
+    for i in range(len(spine_path)-1):
+        spine_path_edges.append((spine_path[i], spine_path[i+1]))
     
-    for i in range(len(spine_nodes)-1):
-        edges.append((spine_nodes[i],spine_nodes[i+1]))
-    
-    return(tuple(edges))
+    return(tuple(spine_path_edges))
 
 ###-----------------------------------------------
 
-def map_spine_edges(spine_edges, incidence_matrix, branch_lengths, branch_ids):
+def map_spine_edges_to_skeleton(
+        spine_edges: list,
+        adjancency_matrix: np.ndarray,
+        branch_labels: "napari.types.LabelsData"):
+    """
+    Map the edges of a spine path to the branches in the skeleton image.
+
+    Parameters
+    ----------
+    spine_edges : list
+        A list of edges that represent a path in a skeleton graph.
+    adjancency_matrix : numpy.ndarray
+        A 2D adjacency matrix where each row represents a node and each column
+        represents an edge. A value of 1 indicates that the node is connected
+        to the edge.
+    branch_labels : napari.types.LabelsData
+        A labeled image with labelled skeleton branches.
+
+    Returns
+    -------
+    spine_branch_labels : list
+        A list of branch labels that represent a path in a skeleton graph.        
+    """
     
-    '''...'''
-    
-    img_spine_ids = []
+    spine_branch_labels = []
     
     for i in spine_edges:
-        pts_sum = incidence_matrix[i[0],:] + incidence_matrix[i[1],:]
+        pts_sum = adjancency_matrix[i[0],:] + adjancency_matrix[i[1],:]
         i_id = np.where(pts_sum == 2)[0][0]
-        img_spine_ids.append(branch_ids[i_id])
+        spine_branch_labels.append(branch_labels[i_id])
         
-    return img_spine_ids
-
-###-----------------------------------------------
-
-def create_spine_img(skel_branches, img_spine_ids):
-    
-    '''...'''
-    
-    img_spine = np.zeros_like(skel_branches)
-    
-    for i in img_spine_ids:
-        img_spine[skel_branches == i] = i
-    
-    return img_spine
+    return spine_branch_labels
 
