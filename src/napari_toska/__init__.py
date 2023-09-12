@@ -7,3 +7,6 @@ from ._network_analysis import (create_adjacency_matrix,
                                 create_all_adjancency_matrices,
                                 convert_adjacency_matrix_to_graph,
                                 create_spine_image)
+
+from ._measurements import (analyze_single_skeleton,
+                            analyze_skeletons)                            
