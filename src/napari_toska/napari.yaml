@@ -11,6 +11,10 @@ contributions:
     - id: napari-toska.parse_all_skeletons
       python_name: napari_toska._labeled_skeletonization:parse_all_skeletons
       title: Parse all skeletons
+    - id: napari-toska.analyze_whole_skeletons
+      python_name: napari_toska._measurements:analyze_skeletons
+      title: Analyze whole skeletons
+
   widgets:
     - command: napari-toska.labeled_skeleton
       autogenerate: true
@@ -21,3 +25,6 @@ contributions:
     - command: napari-toska.parse_all_skeletons
       autogenerate: true
       display_name: Parse all skeletons
+    - command: napari-toska.analyze_whole_skeletons
+      autogenerate: true
+      display_name: Analyze whole skeletons
