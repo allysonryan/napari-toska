@@ -979,6 +979,8 @@ def skeleton_spine_search(nodes: np.ndarray, G: nx.Graph):
         The length of the longest path in the skeleton graph between two nodes
         of degree 1 (aka end points)
     """
+    if len(list(G.edges())) == 0:
+        return None, None        
     
     node_degrees = np.sum(nodes, axis = 1)
     ep_pairs = tuple(combinations(tuple(np.where(node_degrees == 1)[0]),2))
