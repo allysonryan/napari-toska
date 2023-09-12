@@ -37,7 +37,7 @@ def analyze_skeletons(
 
 
 def analyze_single_skeleton(
-        parsed_labeled_skeleton: "napari.types.LabelsData",
+        parsed_skeleton: "napari.types.LabelsData",
         neighborhood: str = "n8"
         ) -> pd.DataFrame:
     import networkx as nx
@@ -48,7 +48,7 @@ def analyze_single_skeleton(
     from ._backend_toska_functions import skeleton_spine_search
 
     # create an adjacency matrix for the skeleton
-    adjacency_matrix = create_adjacency_matrix(parsed_labeled_skeleton,
+    adjacency_matrix = create_adjacency_matrix(parsed_skeleton,
                                                neighborhood=neighborhood)
     graph = convert_adjacency_matrix_to_graph(adjacency_matrix)
 
@@ -91,3 +91,46 @@ def analyze_single_skeleton(
 
     return df
             
+
+def analyze_single_skeleton_network(
+        branch_labels: "napari.types.LabelsData",
+        parsed_skeleton: "napari.types.LabelsData",
+        neighborhood: str = "n8"
+):
+    import networkx as nx
+    import numpy as np
+    from skimage import measure
+    import pandas as pd
+    from ._network_analysis import (
+        create_adjacency_matrix,
+        convert_adjacency_matrix_to_graph)
+    from ._backend_toska_functions import skeleton_spine_search
+
+    # create an adjacency matrix for the skeleton
+    adjacency_matrix = create_adjacency_matrix(parsed_skeleton,
+                                               neighborhood=neighborhood)
+    graph = convert_adjacency_matrix_to_graph(adjacency_matrix)
+
+    edge_labels = np.arange(1, adjacency_matrix.shape[1]+1)
+
+    # get node labels
+    node_labels = measure.label(parsed_skeleton == 1,
+                                connectivity=len(branch_labels.shape))
+    node_labels[node_labels > 0] += adjacency_matrix.shape[1] + 1
+
+    # component type
+    component_type = ['edge'] * adjacency_matrix.shape[1] +\
+        ['node'] * adjacency_matrix.shape[0]
+
+    # get node degrees
+    node_degrees = adjacency_matrix.sum(axis=1)
+
+    # Assemble the table
+    features = pd.DataFrame(
+        {
+            "label": np.arange(1, np.amax(node_labels)),
+            "component_type": component_type
+        }
+    )
+
+    features[features["component_type"] == "node"]["degree"] = node_degrees
