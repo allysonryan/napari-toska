@@ -42,7 +42,7 @@ def create_all_adjancency_matrices(
 
 
 def create_adjacency_matrix(labeled_skeletons: "napari.types.LabelsData",
-                            neighborhood: str = "n4") -> np.ndarray:
+                            neighborhood: str = "n8") -> np.ndarray:
     """
     Create an adjacency matrix for a given skeleton image.
 
