@@ -31,3 +31,65 @@ def test_skeleton_parsing():
                                               neighborhood="n8")
     for i in [1, 2, 3]:
         assert i in np.unique(parsed_skeleton)
+
+
+def test_measurements():
+    import numpy as np
+    import napari_toska as nts
+
+    mock_skeleton = np.array([
+        [0, 0, 0, 0, 0, 0, 0, 0, 0,],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0,],
+        [0, 0, 1, 0, 0, 0, 1, 0, 0,],
+        [0, 0, 0, 1, 0, 1, 0, 0, 0,],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0,],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0,],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0,],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0,],
+        [0, 0, 0, 1, 0, 1, 0, 0, 0,],
+        [0, 0, 1, 0, 0, 0, 1, 0, 0,],
+        [0, 0, 0, 0, 0, 0, 0, 1, 0,],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0,],
+    ])
+
+    # test parsing
+    parsed_skeleton = nts.parse_all_skeletons(
+        mock_skeleton, neighborhood='n8')
+    for i in [1, 2, 3]:
+        assert i in np.unique(parsed_skeleton)
+
+    # test Intermediates
+    adjacency_matrix = nts.create_adjacency_matrix(parsed_skeleton,
+                                                   neighborhood='n8')
+    graph = nts.convert_adjacency_matrix_to_graph(adjacency_matrix)
+    assert adjacency_matrix.shape[0] == 6
+    assert adjacency_matrix.shape[1] == 5
+
+    labeled_branches_single = nts.label_branches(parsed_skeleton,
+                                                 mock_skeleton,
+                                                 neighborhood='n8')
+    assert len(np.unique(labeled_branches_single) == 5)
+    spine = nts.create_spine_image(adjacency_matrix=adjacency_matrix,
+                                   labeled_branches=labeled_branches_single)
+    assert len(np.unique(spine)[1:]) == 3
+
+    # Measurements: Coarse
+    features = nts.analyze_skeletons(
+        labeled_skeletons=mock_skeleton,
+        parsed_skeletons=parsed_skeleton)
+
+    assert features.shape[0] == 1
+    assert features.loc[0]['n_cycle_basis'] == 0
+    assert features.loc[0]['n_branch_points'] == 2
+    assert features.loc[0]['n_endpoints'] == 4
+    assert features.loc[0]['n_nodes'] == 6
+    assert features.loc[0]['n_branches'] == 5
+    assert features.loc[0]['skeleton_id'] == 1
+    assert features.loc[0]['spine_length'] == 3
+
+    # Measurements: Fine
+    features_fine = nts.analyze_single_skeleton_network(parsed_skeleton,
+                                                        neighborhood='n8')
+    assert features_fine.shape[0] == 11
+    assert np.array_equal(features_fine['degree'].dropna().unique(), [3, 1])
+    assert np.array_equal(features_fine['component_type'].unique(), ['node', 'edge'])
