@@ -983,20 +983,21 @@ def skeleton_spine_search(nodes: np.ndarray, G: nx.Graph):
         return None, None        
     
     node_degrees = np.sum(nodes, axis = 1)
-    ep_pairs = tuple(combinations(tuple(np.where(node_degrees == 1)[0]),2))
+    ep_pairs = tuple(combinations(tuple(np.where(node_degrees == 1)[0]), 2))
     
     ep_pair_paths = []
     path_weights = []
     
     for i in ep_pairs:
         ep_pair_paths.append(list(nx.all_simple_paths(G, source = i[0], target=i[1])))
-        i_paths = nx.all_simple_paths(G, source = i[0], target=i[1])
+        i_paths = list(nx.all_simple_paths(G, source = i[0], target=i[1]))
         
         i_weights = []
         for j in i_paths:
             i_weights.append(nx.path_weight(G, j, weight="weight"))
         path_weights.append(i_weights)
         
+    path_weights = [max(x) for x in path_weights]
     path_loc = np.argmax(path_weights)
     spine_path = tuple(ep_pair_paths[path_loc])[0]
     spine_length = path_weights[path_loc]

@@ -90,7 +90,7 @@ def analyze_single_skeleton(
     )
 
     return df
-            
+
 
 def analyze_single_skeleton_network(
         branch_labels: "napari.types.LabelsData",
@@ -134,3 +134,7 @@ def analyze_single_skeleton_network(
     )
 
     features[features["component_type"] == "node"]["degree"] = node_degrees
+
+    # add all edge weights to dataframe
+    edge_weights = nx.get_edge_attributes(graph, "weight")
+    features[features["component_type"] == "edge"]["weight"] = edge_weights.values()
