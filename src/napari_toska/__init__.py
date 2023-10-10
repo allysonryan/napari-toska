@@ -9,4 +9,5 @@ from ._network_analysis import (create_adjacency_matrix,
                                 create_spine_image)
 
 from ._measurements import (analyze_single_skeleton,
-                            analyze_skeletons)                            
+                            analyze_skeletons,
+                            analyze_single_skeleton_network)

@@ -93,10 +93,9 @@ def analyze_single_skeleton(
 
 
 def analyze_single_skeleton_network(
-        branch_labels: "napari.types.LabelsData",
-        parsed_skeleton: "napari.types.LabelsData",
+        parsed_skeleton_single: "napari.types.LabelsData",
         neighborhood: str = "n8"
-):
+) -> pd.DataFrame:
     import networkx as nx
     import numpy as np
     from skimage import measure
@@ -107,34 +106,35 @@ def analyze_single_skeleton_network(
     from ._backend_toska_functions import skeleton_spine_search
 
     # create an adjacency matrix for the skeleton
-    adjacency_matrix = create_adjacency_matrix(parsed_skeleton,
+    adjacency_matrix = create_adjacency_matrix(parsed_skeleton_single,
                                                neighborhood=neighborhood)
     graph = convert_adjacency_matrix_to_graph(adjacency_matrix)
 
+    # get edge and node labels
+    node_labels = np.arange(1, adjacency_matrix.shape[0]+1)
     edge_labels = np.arange(1, adjacency_matrix.shape[1]+1)
 
-    # get node labels
-    node_labels = measure.label(parsed_skeleton == 1,
-                                connectivity=len(branch_labels.shape))
-    node_labels[node_labels > 0] += adjacency_matrix.shape[1] + 1
-
     # component type
-    component_type = ['edge'] * adjacency_matrix.shape[1] +\
-        ['node'] * adjacency_matrix.shape[0]
-
-    # get node degrees
-    node_degrees = adjacency_matrix.sum(axis=1)
+    component_type = ['node'] * adjacency_matrix.shape[0] +\
+        ['edge'] * adjacency_matrix.shape[1]
 
     # Assemble the table
     features = pd.DataFrame(
         {
-            "label": np.arange(1, np.amax(node_labels)),
+            "label": np.arange(1, np.amax(node_labels) + np.amax(edge_labels) +1),
             "component_type": component_type
         }
     )
 
-    features[features["component_type"] == "node"]["degree"] = node_degrees
+    # Measurement: Node degree
+    node_degrees = adjacency_matrix.sum(axis=1)
+    features.loc[features["component_type"] == "node", "degree"] = node_degrees
 
     # add all edge weights to dataframe
     edge_weights = nx.get_edge_attributes(graph, "weight")
-    features[features["component_type"] == "edge"]["weight"] = edge_weights.values()
+    features.loc[features["component_type"] == "edge", "weight"] = list(edge_weights.values())
+    features.loc[features["component_type"] == "edge", "node_1"] = np.asarray(graph.edges)[:, 0]
+    features.loc[features["component_type"] == "edge", "node_2"] = np.asarray(graph.edges)[:, 1]
+    features.loc[features["component_type"] == "node", "node_labels"] = list(graph.nodes)
+
+    return features
