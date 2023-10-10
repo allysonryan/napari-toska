@@ -57,7 +57,7 @@ def parse_all_skeletons(skeleton_image: "napari.types.LabelsData",
             parsed_skeletons_assembly[y0: y1, x0: x1] = unpadded_image
         elif len(skeleton_image.shape) == 3:
             unpadded_image = parsed_sub_skeleton[1: -1, 1: -1, 1: -1]
-            y0, x0, z0, y1, x1, z1 = sub_bbox
+            z0, y0, x0, z1, y1, x1 = sub_bbox
             parsed_skeletons_assembly[z0: z1, y0: y1, x0: x1] = unpadded_image
 
     return parsed_skeletons_assembly
