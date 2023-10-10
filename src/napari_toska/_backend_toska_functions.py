@@ -720,8 +720,13 @@ def _generate_adjacency_matrix(e_pts, bp_img, branches, structure):
         touches = np.zeros((coords.shape[0]), dtype = int)
         
         for j in range(coords.shape[0]):
-            y,x = coords[j]
-            touches[j] = branches[y,x]
+            if len(branches.shape) == 2:
+                y,x = coords[j]
+                touches[j] = branches[y, x]
+            elif len(branches.shape) == 3:
+                z, y, x = coords[j]
+                touches[j] = branches[z, y, x]
+            
         
         touches = np.unique(touches)
         touches = touches[touches > 0]
