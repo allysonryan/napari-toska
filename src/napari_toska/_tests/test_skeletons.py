@@ -93,3 +93,30 @@ def test_measurements():
     assert features_fine.shape[0] == 11
     assert np.array_equal(features_fine['degree'].dropna().unique(), [3, 1])
     assert np.array_equal(features_fine['component_type'].unique(), ['node', 'edge'])
+
+
+def test_measurement_3d():
+
+    # import 3d binary blobs
+    import numpy as np
+    import napari_toska as nts
+    from skimage import data, measure
+
+    image = data.binary_blobs(length=64, n_dim=3, seed=0, blob_size_fraction=0.3)
+    labels = measure.label(image)
+    skeletons = nts.generate_labeled_skeletonization(labels)
+    parsed_skeleton = nts.parse_all_skeletons(skeletons, neighborhood='n26')
+
+    parsed_skeleton_single = parsed_skeleton * (skeletons == 2)
+
+    features_single = nts.analyze_single_skeleton(parsed_skeleton_single, neighborhood='n26')
+
+    # analyze all skeletons
+    features = nts.analyze_skeletons(
+        labeled_skeletons=skeletons,
+        parsed_skeletons=parsed_skeleton,
+        neighborhood='n26')
+    
+
+if __name__ == "__main__":
+    test_measurement_3d()
