@@ -985,7 +985,7 @@ def skeleton_spine_search(nodes: np.ndarray, G: nx.Graph):
         of degree 1 (aka end points)
     """
     if len(list(G.edges())) == 0:
-        return None, None        
+        return None, None
     
     node_degrees = np.sum(nodes, axis = 1)
     ep_pairs = tuple(combinations(tuple(np.where(node_degrees == 1)[0]), 2))
