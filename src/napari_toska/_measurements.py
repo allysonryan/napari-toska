@@ -138,3 +138,86 @@ def analyze_single_skeleton_network(
     features.loc[features["component_type"] == "node", "node_labels"] = list(graph.nodes)
 
     return features
+
+
+def calculate_branch_lengths(
+        branch_label_image: "napari.types.LabelsData",
+        viewer: "napari.Viewer" = None
+) -> pd.DataFrame:
+    """
+    Iterate over every present label in the branch label image and calculate
+    the spine length for each label.
+    """
+    import numpy as np
+    from skimage import measure
+    from copy import deepcopy
+
+    unique_branches = np.unique(branch_label_image)[1:]
+    df = pd.DataFrame(
+        {
+            "label": unique_branches,
+        }
+    )
+
+    if len(branch_label_image.shape) == 2:
+
+        # loop over all branches
+        for branch in unique_branches:
+            length = 0
+
+            masked_branch = branch_label_image * (branch_label_image == branch)
+            labeled_branch = measure.label(masked_branch, connectivity=1)
+            unique_branch_segments = np.unique(labeled_branch)[1:]
+
+            # loop over all segments of the branch
+            for label in unique_branch_segments:
+                segment_size = np.sum(unique_branch_segments == label)
+                if segment_size == 1:
+                    length += np.sqrt(2)
+                else:
+                    length += segment_size
+
+            df.loc[df["label"] == branch, "branch_length"] = length
+
+    elif len(branch_label_image.shape) == 3:
+        for branch in unique_branches:
+            length = 0
+
+            masked_branch = branch_label_image * (branch_label_image == branch)
+            n6_labeled_branch = measure.label(masked_branch, connectivity=1)
+            n6_labeled_branch_copy = deepcopy(n6_labeled_branch)
+            n6_unique_branch_segments = np.unique(n6_labeled_branch)[1:]
+
+            # loop over all segments of the branch
+            for segment in n6_unique_branch_segments:
+                segment_size = np.sum(n6_labeled_branch == segment)
+                if segment_size == 1:
+                    n6_labeled_branch_copy[n6_labeled_branch == segment] = 0
+
+            face_sharing_contributions = np.sum(n6_labeled_branch_copy > 0)
+            length += face_sharing_contributions
+
+            n18_labeled_branch = measure.label(masked_branch, connectivity=2)
+            n18_unique_branch_segments = np.unique(n18_labeled_branch)[1:]
+
+            # loop over all segments of the branch
+            for segment in n18_unique_branch_segments:
+                segment_size = np.sum(n18_labeled_branch == segment)
+                if segment_size == 1:
+                    length += np.sqrt(3)
+                    n18_labeled_branch[n18_labeled_branch == segment] = 0
+
+            n18_remainder_objects = n18_labeled_branch - n6_labeled_branch_copy
+            edge_sharing_contributions = np.sum(n18_remainder_objects > 0)
+            length += edge_sharing_contributions * np.sqrt(2)
+
+            df.loc[df["label"] == branch, "branch_length"] = length
+
+    if viewer is not None:
+        from napari_workflows._workflow import _get_layer_from_data
+        from napari_skimage_regionprops import add_table
+        branch_layer = _get_layer_from_data(viewer, branch_label_image)
+        branch_layer.features = df
+        add_table(branch_layer, viewer)
+
+    return df

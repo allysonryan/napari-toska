@@ -10,4 +10,5 @@ from ._network_analysis import (create_adjacency_matrix,
 
 from ._measurements import (analyze_single_skeleton,
                             analyze_skeletons,
-                            analyze_single_skeleton_network)
+                            analyze_single_skeleton_network,
+                            calculate_branch_lengths)
