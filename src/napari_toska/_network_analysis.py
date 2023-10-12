@@ -153,16 +153,24 @@ def create_spine_image(
         find_spine_edges,
         map_spine_edges_to_skeleton
     )
+    # for skeletons consisting only of a single point
+    if (labeled_branches > 0).sum() == 1:
+        return labeled_branches
 
     G = convert_adjacency_matrix_to_graph(adjacency_matrix)
     spine_path_nodes, spine_path_length = skeleton_spine_search(
         adjacency_matrix, G)
 
     spine_edges = find_spine_edges(spine_path_nodes)
+
+    if len(spine_edges) == 1:
+        branch_labels = [1]
+    else:
+        branch_labels = np.arange(1, np.amax(labeled_branches))
     spine_edges = map_spine_edges_to_skeleton(
         spine_edges,
         adjancency_matrix=adjacency_matrix,
-        branch_labels=np.arange(1, np.amax(labeled_branches)))
+        branch_labels=branch_labels)
 
     img_spine = np.zeros_like(labeled_branches)
 

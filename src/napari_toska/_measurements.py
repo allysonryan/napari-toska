@@ -44,7 +44,11 @@ def analyze_single_skeleton(
     import numpy as np
     from ._network_analysis import (
         create_adjacency_matrix,
-        convert_adjacency_matrix_to_graph)
+        convert_adjacency_matrix_to_graph,
+        create_spine_image)
+    from ._labeled_skeletonization import (
+        label_branches
+    )
     from ._backend_toska_functions import skeleton_spine_search
 
     # create an adjacency matrix for the skeleton
@@ -64,10 +68,21 @@ def analyze_single_skeleton(
     # number of branches
     n_branches = adjacency_matrix.shape[1]
 
-    # spine length
-    _, spine_paths_length = skeleton_spine_search(
-        adjacency_matrix, graph)
-    spine_length = np.nansum(spine_paths_length)
+    # neighboring end points need to be handled separately
+    if n_branches == 0:
+        spine_length = 0
+        image_spine_length = 0
+    else:
+        # spine length (in network), number of edges in spine
+        _, spine_paths_length = skeleton_spine_search(
+            adjacency_matrix, graph)
+        spine_length = np.nansum(spine_paths_length)
+
+        # spine length (in image), number of pixels in spine
+        branch_labels = label_branches(parsed_skeleton, parsed_skeleton > 0,
+                                       neighborhood=neighborhood)
+        spine_image = create_spine_image(adjacency_matrix, branch_labels)
+        image_spine_length = calculate_spine_length(spine_image)
 
     # cycle basis
     directed_graph = graph.to_directed()
@@ -83,7 +98,8 @@ def analyze_single_skeleton(
             "n_branch_points": [n_branch_points],
             "n_nodes": [n_nodes],
             "n_branches": [n_branches],
-            "spine_length": [spine_length],
+            "spine_length_network": [spine_length],
+            "spine_length_image": [image_spine_length],
             "n_cycle_basis": [n_cycle_basis],
             "n_possible_undirected_cycles": [n_possible_undirected_cycles]
         }
@@ -221,3 +237,27 @@ def calculate_branch_lengths(
         add_table(branch_layer, viewer)
 
     return df
+
+
+def calculate_spine_length(
+        spine_image: "napari.types.LabelsData",
+) -> float:
+    """
+    Iterate over every present label in the spine image and calculate
+    the spine length for each label.
+
+    Parameters
+    ----------
+    spine_image : "napari.types.LabelsData"
+        A labeled image of a skeleton's spine.
+
+    Returns
+    -------
+    total_length : float
+        The total length of the spine.
+    """
+
+    segment_lengths = calculate_branch_lengths(spine_image)
+    total_length = segment_lengths["branch_length"].sum()
+
+    return total_length
