@@ -9,8 +9,28 @@ def test_skeletonization():
 
     assert skeleton.max() == 15
 
+def test_simple_skeleton():
+    import napari_toska as nts
+    from skimage.morphology import skeletonize
+    from skimage.data import binary_blobs
+    from skimage.measure import label
+    import numpy as np
+
+    labels = label(binary_blobs(seed=0))
+    labeled_skeletons = nts.generate_labeled_skeletonization(labels)
+
+    # spine length (in image), number of pixels in spine
+    parsed_skeletons_single = nts.parse_single_skeleton(labeled_skeletons, label=14, neighborhood='n8')
+    branch_labels = nts.label_branches(parsed_skeletons_single, 1*(parsed_skeletons_single > 0),
+                                        neighborhood='n8')
+
+    adjacency_matrix = nts.create_adjacency_matrix(parsed_skeletons_single, neighborhood='n8')
+    spine_image = nts.create_spine_image(adjacency_matrix, branch_labels)
+
 
 def test_skeleton_parsing():
+
+    # TODO: use simpler skeleton for this test
     import napari_toska as nts
     import numpy as np
     from skimage.data import binary_blobs
@@ -117,6 +137,3 @@ def test_measurement_3d():
         parsed_skeletons=parsed_skeleton,
         neighborhood='n26')
     
-
-if __name__ == "__main__":
-    test_measurement_3d()
