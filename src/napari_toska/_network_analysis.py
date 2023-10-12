@@ -41,14 +41,14 @@ def create_all_adjancency_matrices(
     return adjacency_matrices
 
 
-def create_adjacency_matrix(labeled_skeletons: "napari.types.LabelsData",
+def create_adjacency_matrix(parsed_skeletons: "napari.types.LabelsData",
                             neighborhood: str = "n8") -> np.ndarray:
     """
     Create an adjacency matrix for a given skeleton image.
 
     Parameters:
     -----------
-    labeled_skeletons: napari.types.LabelsData
+    parsed_skeletons: napari.types.LabelsData
         A skeleton image where each pixel is labelled according to the
         point type which can be either a terminal point (1), a branching
         point (3), or a chain point (2).
@@ -68,15 +68,15 @@ def create_adjacency_matrix(labeled_skeletons: "napari.types.LabelsData",
     structure = get_neighborhood(neighborhood)
 
     # Retrieve branch points
-    branch_points = labeled_skeletons == 3
+    branch_points = parsed_skeletons == 3
     branch_points, _ = ndimage.label(
         branch_points, structure=structure)
 
     # Retrieve end points
-    end_points = np.asarray(np.where(labeled_skeletons == 1)).T
+    end_points = np.asarray(np.where(parsed_skeletons == 1)).T
 
     # Retrieve branches image
-    branches, _ = ndimage.label(labeled_skeletons == 2, structure=structure)
+    branches, _ = ndimage.label(parsed_skeletons == 2, structure=structure)
 
     # generate adjacency matrix
     M = _generate_adjacency_matrix(end_points, branch_points, branches, structure)
