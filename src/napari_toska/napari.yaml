@@ -2,27 +2,48 @@ name: napari-toska
 display_name: Napari Topological Skeleton Analysis
 contributions:
   commands:
-    - id: napari-toska.make_sample_data
-      python_name: napari_toska._sample_data:make_sample_data
-      title: Load sample data from Napari Topological Skeleton Analysis
-    - id: napari-toska.make_qwidget
-      python_name: napari_toska._widget:ExampleQWidget
-      title: Make example QWidget
-    - id: napari-toska.make_magic_widget
-      python_name: napari_toska._widget:example_magic_widget
-      title: Make example magic widget
-    - id: napari-toska.make_func_widget
-      python_name: napari_toska._widget:example_function_widget
-      title: Make example function widget
-  sample_data:
-    - command: napari-toska.make_sample_data
-      display_name: Napari Topological Skeleton Analysis
-      key: unique_id.1
+
+    # Labeling
+    - id: napari-toska.labeled_skeleton
+      python_name: napari_toska._labeled_skeletonization:generate_labeled_skeletonization
+      title: Make labeled skeleton image
+    - id: napari-toska.label_branches
+      python_name: napari_toska._labeled_skeletonization:label_branches
+      title: Label branches
+
+    # Parsing
+    - id: napari-toska.parse_single_skeleton
+      python_name: napari_toska._labeled_skeletonization:parse_single_skeleton
+      title: Parse single skeletons
+    - id: napari-toska.parse_all_skeletons
+      python_name: napari_toska._labeled_skeletonization:parse_all_skeletons
+      title: Parse all skeletons
+    
+    # Measurements
+    - id: napari-toska.analyze_whole_skeletons
+      python_name: napari_toska._measurements:analyze_skeletons
+      title: Analyze whole skeletons
+    - id: napari-toska.measure_branch_lengths
+      python_name: napari_toska._measurements:calculate_branch_lengths
+      title: Measure branch lengths
+
   widgets:
-    - command: napari-toska.make_qwidget
-      display_name: Example QWidget
-    - command: napari-toska.make_magic_widget
-      display_name: Example Magic Widget
-    - command: napari-toska.make_func_widget
+    - command: napari-toska.labeled_skeleton
       autogenerate: true
-      display_name: Example Function Widget
+      display_name: Make labeled skeleton image
+    - command: napari-toska.label_branches
+      autogenerate: true
+      display_name: Label branches of single skeleton
+
+    - command: napari-toska.parse_single_skeleton
+      autogenerate: true
+      display_name: Parse single skeletons
+    - command: napari-toska.parse_all_skeletons
+      autogenerate: true
+      display_name: Parse all skeletons
+    - command: napari-toska.analyze_whole_skeletons
+      autogenerate: true
+      display_name: Analyze whole skeletons
+    - command: napari-toska.measure_branch_lengths
+      autogenerate: true
+      display_name: Measure branch lengths

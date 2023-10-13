@@ -1,2 +1,0 @@
-[napari.manifest]
-napari-toska = napari_toska:napari.yaml
