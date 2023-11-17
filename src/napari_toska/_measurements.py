@@ -68,21 +68,21 @@ def analyze_single_skeleton(
     # number of branches
     n_branches = adjacency_matrix.shape[1]
 
-    # neighboring end points need to be handled separately
-    if n_branches == 0:
-        spine_length = 0
-        image_spine_length = 0
-    else:
-        # spine length (in network), number of edges in spine
-        _, spine_paths_length = skeleton_spine_search(
-            adjacency_matrix, graph)
-        spine_length = np.nansum(spine_paths_length)
+    # # neighboring end points need to be handled separately
+    # if n_branches == 0:
+    #     spine_length = 0
+    #     image_spine_length = 0
+    # else:
+    #     # spine length (in network), number of edges in spine
+    #     _, spine_paths_length = skeleton_spine_search(
+    #         adjacency_matrix, graph)
+    #     spine_length = np.nansum(spine_paths_length)
 
-        # spine length (in image), number of pixels in spine
-        branch_labels = label_branches(parsed_skeleton, parsed_skeleton > 0,
-                                       neighborhood=neighborhood)
-        spine_image = create_spine_image(adjacency_matrix, branch_labels)
-        image_spine_length = calculate_spine_length(spine_image)
+    #     # spine length (in image), number of pixels in spine
+    #     branch_labels = label_branches(parsed_skeleton, parsed_skeleton > 0,
+    #                                    neighborhood=neighborhood)
+    #     spine_image = create_spine_image(adjacency_matrix, branch_labels)
+    #     image_spine_length = calculate_spine_length(spine_image)
 
     # cycle basis
     directed_graph = graph.to_directed()
@@ -98,8 +98,8 @@ def analyze_single_skeleton(
             "n_branch_points": [n_branch_points],
             "n_nodes": [n_nodes],
             "n_branches": [n_branches],
-            "spine_length_network": [spine_length],
-            "spine_length_image": [image_spine_length],
+            # "spine_length_network": [spine_length],
+            # "spine_length_image": [image_spine_length],
             "n_cycle_basis": [n_cycle_basis],
             "n_possible_undirected_cycles": [n_possible_undirected_cycles]
         }
