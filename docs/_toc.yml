@@ -15,4 +15,8 @@ parts:
 
   # - caption: Glossary
 
-  # - caption: API
+- caption: API
+  chapters:
+  - file: api/skeletonization
+  - file: api/graphs
+  - file: api/measurement
