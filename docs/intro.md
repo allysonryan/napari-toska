@@ -16,4 +16,11 @@ This page provides an overview over the following.
 - References & Acknowledgements: 
   - Which algorithms are used and what should be cited if this plugin is used?
   - Link to the preprint
-- 
+
+
+## References
+
+{cite}`lee1994building`
+
+```{bibliography}
+```
