@@ -176,3 +176,101 @@ def label_branches(parsed_skeletons: "napari.types.LabelsData",
             structure=structure)[0] + branch_label_image
 
     return branch_label_image
+
+
+def generate_labeled_outline(labels: 'napari.types.LabelsData'):
+    """
+    Generate a labeled outline of a label image.
+
+    Parameters
+    ----------
+    labels : napari.types.LabelsData
+        A label image.
+
+    Returns
+    -------
+    outline : napari.types.LabelsData
+        A labeled outline of the label image.
+    """
+    from skimage import segmentation, morphology
+
+    outline = segmentation.find_boundaries(
+        labels > 0,
+        connectivity=labels.ndim, mode='inner')
+    outline = morphology.skeletonize(outline)
+    return outline * labels
+
+
+def generate_local_thickness_skeleton(
+        outline: 'napari.types.LabelsData',
+        labeled_skeleton: 'napari.types.LabelsData'
+        ) -> 'napari.types.ImageData':
+    """
+    Generate a local thickness image of a skeleton.
+
+    Parameters
+    ----------
+    outline : napari.types.LabelsData
+        A labeled outline of a label image.
+    labeled_skeleton : napari.types.LabelsData
+        A labeled skeleton image.
+
+    Returns
+    -------
+    thickness_image : napari.types.ImageData
+        A local thickness image of the skeleton.
+    """
+    from scipy.spatial.distance import cdist
+    skeleton_coordinates = np.stack(np.where(labeled_skeleton > 0)).T
+    boundary_coordinates = np.stack(np.where(outline > 0)).T
+
+    distances_images = np.zeros_like(labeled_skeleton, dtype=np.float32)
+    for point in skeleton_coordinates:
+        distance = min(cdist([point], boundary_coordinates).squeeze())
+
+        distances_images[point[0], point[1]] = distance
+
+    return distances_images
+
+
+def reconstruct_from_local_thickness(
+        thickness_image: 'napari.types.ImageData'
+        ) -> 'napari.types.LabelsData':
+    """
+    Reconstruct a label image from a local thickness image.
+
+    Parameters
+    ----------
+    thickness_image : napari.types.ImageData
+        A local thickness image of a skeleton.
+
+    Returns
+    -------
+    reconstruction : napari.types.LabelsData
+        A label image reconstructed from the local thickness image.
+    """
+    from skimage import draw
+    reconstruction = np.zeros_like(thickness_image, dtype=int)
+
+    coordinates_skeleton = np.stack(np.where(thickness_image > 0)).T
+
+    for pt in coordinates_skeleton:
+        thickness = thickness_image[tuple(pt)]
+        if thickness_image.ndim == 3:
+            sphere = np.where(draw.ellipsoid(thickness, thickness, thickness) > 0)
+
+            # add offset to coordinates
+            sphere = np.stack([sphere[0] + pt[0],
+                               sphere[1] + pt[1],
+                               sphere[2] + pt[2]], axis=1)
+
+            # overwrite values at coordinates
+            reconstruction[sphere[:, 0],
+                           sphere[:, 1],
+                           sphere[:, 2]] = 1
+
+        elif thickness_image.ndim == 2:
+            disk = draw.disk(pt, thickness, shape=reconstruction.shape)
+            reconstruction[disk] = 1
+
+    return reconstruction
