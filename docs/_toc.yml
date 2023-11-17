@@ -13,6 +13,12 @@ parts:
   - file: examples/whole_skeleton_measurements_2d
   - file: examples/whole_skeleton_measurements_3d
 
+- caption: Glossary
+  chapters:
+  - file: glossary/neighborhoods
+  - file: glossary/skeletonization
+  - file: glossary/skeleton_components
+
   # - caption: Glossary
 
 - caption: API
