@@ -1,0 +1,18 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+
+options:
+  numbered: False
+
+parts:
+- caption: Examples
+  chapters: 
+  - file: examples/whole_skeleton_measurements_2d
+  - file: examples/whole_skeleton_measurements_3d
+
+  # - caption: Glossary
+
+  # - caption: API
