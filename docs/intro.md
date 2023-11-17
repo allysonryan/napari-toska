@@ -1,12 +1,14 @@
-# Napari-toska
+# napari-toska
 
 Welcome to the documentation of napari-toska.
 
 ## Overview
 
-This page provides an overview over the following:
+This page provides an overview over the following.
 
-- Example notebooks on how to use the plugins from code (2D & 3D)
+- Example notebooks on how to use the plugins from code:
+  - [Skeleton analysis in 2D](examples:measurements_2d)
+  - [Skeleton analysis in 3D](examples:measurements_3d)
 - Definitions & glossary:
   - What is a topological skeleton?
   - What are branches, endpoints, branching points, spines, neighborhoods
