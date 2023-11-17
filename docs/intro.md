@@ -10,17 +10,14 @@ This page provides an overview over the following.
   - [Skeleton analysis in 2D](examples:measurements_2d)
   - [Skeleton analysis in 3D](examples:measurements_3d)
 - Definitions & glossary:
-  - What is a topological skeleton?
-  - What are branches, endpoints, branching points, spines, neighborhoods
+  - [What is a topological skeleton?](glossary:topological_skeleton)
+  - [What are branches, endpoints, branching points and spines?](glossary:skeleton_components)
+  - [What are neighborhoods?](glossary:neighborhoods)
   - What do the measurements mean?
-- References & Acknowledgements: 
-  - Which algorithms are used and what should be cited if this plugin is used?
-  - Link to the preprint
 
+## References & Acknowledgements
 
-## References
-
-{cite}`lee1994building`
+Used algorithms to cite if this plugin is used are listed in more detail in the documentation section on [skeletonization](glossary:topological_skeleton). If you use this plugin in your analysis, please make sure to cite our [preprint](DEAD LINK)
 
 ```{bibliography}
 ```

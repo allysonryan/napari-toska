@@ -1,3 +1,4 @@
+(glossary:neighborhoods)=
 # Neighborhoods
 
 Neighborhoods are at the crux of digital topology methods. In skeletonization, the neighborhood you choose reflects how many of the surrounding pixels/voxels will be used to evaluate if a pixel in the image foreground is critical to its shape basis. By increasing the number of possible neighbors, you increase the flexibility of the resulting skeletons.

@@ -1,3 +1,4 @@
+(glossary:skeleton_components)=
 # Skeleton components
 
 ![](./imgs/2d_spine_extraction.gif)

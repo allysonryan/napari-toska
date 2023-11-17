@@ -1,3 +1,4 @@
+(glossary:topological_skeleton)=
 # Skeletonization
 
 
