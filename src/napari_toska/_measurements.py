@@ -7,6 +7,29 @@ def analyze_skeletons(
         neighborhood: str = "n8",
         viewer: "napari.Viewer" = None
         ) -> pd.DataFrame:
+    """
+    Analyze a skeleton image and return a pandas dataframe.
+
+    This function runs the `analyze_single_skeleton` function for every
+    skeleton in the image and returns a pandas dataframe containing the
+    measurements.
+
+    Parameters
+    ----------
+    labeled_skeletons : "napari.types.LabelsData"
+        A labeled image of skeletons.
+    parsed_skeletons : "napari.types.LabelsData"
+        A parsed labeled image of skeletons.
+    neighborhood : str, optional
+        The neighborhood used for the skeletonization, by default "n8".
+        For 2D images, use "n4" or "n8".
+        For 3D images, use "n6", "n18" or "n26".
+
+    Returns
+    -------
+    df_all : pd.DataFrame
+        A pandas dataframe containing the measurements.
+    """
     import numpy as np
 
     for label in np.unique(labeled_skeletons)[1:]:
@@ -40,6 +63,33 @@ def analyze_single_skeleton(
         parsed_skeleton: "napari.types.LabelsData",
         neighborhood: str = "n8"
         ) -> pd.DataFrame:
+    """
+    Analyze a single skeleton and return a pandas dataframe.
+
+    This function calculates the following measurements for a single skeleton:
+    - number of end points
+    - number of branch points
+    - number of nodes
+    - number of branches
+    - spine length (in network), number of edges in spine
+    - spine length (in image), number of pixels in spine
+    - number of cycle basis
+    - number of possible undirected cycles
+
+    Parameters
+    ----------
+    parsed_skeleton : "napari.types.LabelsData"
+        A parsed labeled image of a skeleton.
+    neighborhood : str, optional
+        The neighborhood used for the skeletonization, by default "n8".
+        For 2D images, use "n4" or "n8".
+        For 3D images, use "n6", "n18" or "n26".
+
+    Returns
+    -------
+    df : pd.DataFrame
+        A pandas dataframe containing the measurements.
+    """
     import networkx as nx
     import numpy as np
     from ._network_analysis import (
@@ -112,6 +162,27 @@ def analyze_single_skeleton_network(
         parsed_skeleton_single: "napari.types.LabelsData",
         neighborhood: str = "n8"
 ) -> pd.DataFrame:
+    """
+    Analyze a single skeleton and return a pandas dataframe.
+
+    This function categorizes ever element of the network
+    representation of a skeleton as either a node or an edge
+    and potentially its weight.
+
+    Parameters
+    ----------
+    parsed_skeleton_single : "napari.types.LabelsData"
+        A parsed labeled image of a skeleton.
+    neighborhood : str, optional
+        The neighborhood used for the skeletonization, by default "n8".
+        For 2D images, use "n4" or "n8".
+        For 3D images, use "n6", "n18" or "n26".
+
+    Returns
+    -------
+    features : pd.DataFrame
+        A pandas dataframe containing the measurements.
+    """
     import networkx as nx
     import numpy as np
     from skimage import measure
@@ -161,8 +232,23 @@ def calculate_branch_lengths(
         viewer: "napari.Viewer" = None
 ) -> pd.DataFrame:
     """
-    Iterate over every present label in the branch label image and calculate
-    the spine length for each label.
+    Calculate the branch length for each branch in a branch image.
+
+    This function calculates the branch length for each branch in a
+    branch image. The branch length is calculated as the number of
+    pixels in the branch and takes into account the adjacency
+    relationship between subsequent pixels/voxels in a branch.
+
+    Parameters
+    ----------
+    branch_label_image : "napari.types.LabelsData"
+        A labeled image of an individual skeleton's branches.
+
+    Returns
+    -------
+    df : pd.DataFrame
+        A pandas dataframe containing the branch length for each branch.
+
     """
     import numpy as np
     from skimage import measure
