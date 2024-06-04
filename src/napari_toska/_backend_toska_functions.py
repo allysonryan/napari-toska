@@ -708,9 +708,8 @@ def _generate_adjacency_matrix(e_pts, bp_img, branches, structure):
     e_pts = np.asarray(e_pts)
     n_ep = e_pts.shape[0]
     for i in range(n_ep):
-        bp_img[e_pts[i][0],
-               e_pts[i][1]] = n_bp + 1 + i
-
+        bp_img[tuple(e_pts[i])] = n_bp + 1 + i
+        
     adjancency_matrix = np.zeros((n_bp + n_ep, m_branches), dtype = int)
     for i in range(n_bp + n_ep):
         
