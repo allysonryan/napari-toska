@@ -122,7 +122,7 @@ def test_measurement_3d():
     import napari_toska as nts
     from skimage import data, measure
 
-    image = data.binary_blobs(length=64, n_dim=3, seed=0, blob_size_fraction=0.3)
+    image = data.binary_blobs(length=64, n_dim=3, rng=0, blob_size_fraction=0.3)
     labels = measure.label(image)
     skeletons = nts.generate_labeled_skeletonization(labels)
     parsed_skeleton = nts.parse_all_skeletons(skeletons, neighborhood='n26')
