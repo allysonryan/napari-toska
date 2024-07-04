@@ -4,7 +4,7 @@ def test_skeletonization():
     from skimage.data import binary_blobs
     from skimage.measure import label
 
-    labels = label(binary_blobs(seed=0))
+    labels = label(binary_blobs(rng=0))
     skeleton = nts.generate_labeled_skeletonization(labels)
 
     assert skeleton.max() == 15
@@ -16,7 +16,7 @@ def test_simple_skeleton():
     from skimage.measure import label
     import numpy as np
 
-    labels = label(binary_blobs(seed=0))
+    labels = label(binary_blobs(rng=0))
     labeled_skeletons = nts.generate_labeled_skeletonization(labels)
 
     # spine length (in image), number of pixels in spine
@@ -38,7 +38,7 @@ def test_skeleton_parsing():
 
     # check if the skeleton is parsed correctly
     # there should only be labels 1, 2, and 3
-    labels = label(binary_blobs(seed=0))
+    labels = label(binary_blobs(rng=0))
     skeleton = nts.generate_labeled_skeletonization(labels)
     parsed_skeleton = nts.parse_single_skeleton(skeleton,
                                                 label=2,
