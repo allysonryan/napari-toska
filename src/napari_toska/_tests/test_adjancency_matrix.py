@@ -5,7 +5,7 @@ def test_adjacency_matrix():
     from skimage.data import binary_blobs
     from skimage.measure import label
 
-    labels = label(binary_blobs(seed=0))
+    labels = label(binary_blobs(rng=0))
     labeled_skeletons = nts.generate_labeled_skeletonization(labels)
     parsed_skeletons_single = nts.parse_single_skeleton(labeled_skeletons, label=2, neighborhood='n8')
 
