@@ -7,7 +7,15 @@
 [![codecov](https://codecov.io/gh/allysonryan/napari-toska/branch/main/graph/badge.svg)](https://codecov.io/gh/allysonryan/napari-toska)
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari-toska)](https://napari-hub.org/plugins/napari-toska)
 
-Extracts and analyses topological skeletons as undirected graphs
+Extracts and analyses topological skeletons as undirected graphs.
+
+![](https://github.com/allysonryan/napari-toska/raw/main/docs/imgs/3d_skeleton_analysis.gif)
+
+The functionality of the plugin comprises the following:
+
+- Extracting the topological skeleton of a binary image using the medial axis transform.
+- Extracting the netowrk of the skeleton as an undirected `networkx` graph.
+- Computing features of individual skeleton components as well as the entire skeleton network.
 
 ----------------------------------
 
