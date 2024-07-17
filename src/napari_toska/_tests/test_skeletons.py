@@ -136,3 +136,16 @@ def test_measurement_3d():
         labeled_skeletons=skeletons,
         parsed_skeletons=parsed_skeleton,
         neighborhood='n26')
+
+    # test spine
+    labeled_branches_single = nts.label_branches(
+        parsed_skeleton_single,
+        skeletons,
+        neighborhood='n26')
+
+    adjacency_matrix = nts.create_adjacency_matrix(
+        parsed_skeleton_single,
+        neighborhood='n26')
+    spine_image = nts.create_spine_image(
+        adjacency_matrix=adjacency_matrix,
+        labeled_branches=labeled_branches_single)
