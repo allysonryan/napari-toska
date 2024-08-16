@@ -1,16 +1,19 @@
 name: deploy-book
 
-# Only run this when the master branch changes
+# Only run this when the master or main branch changes
 on:
   push:
     branches:
-    - master
-    - main
+      - master
+      - main
 
-# This job installs dependencies, build the book, and pushes it to `gh-pages`
+# This job installs dependencies, builds the book, and pushes it to `gh-pages`
 jobs:
   deploy-book:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Ensure the workflow has write permissions
+
     steps:
     - uses: actions/checkout@v3
 
@@ -25,12 +28,14 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install jupyter-book
         python -m pip install .
+    
     # Build the book
     - name: Build the book
       run: |
         jupyter-book build docs/
+    
     # Push the book's HTML to github-pages
-    - name: GitHub Pages action
+    - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3.5.9
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
