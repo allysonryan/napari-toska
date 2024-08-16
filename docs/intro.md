@@ -17,7 +17,7 @@ This page provides an overview over the following.
 
 ## References & Acknowledgements
 
-Used algorithms to cite if this plugin is used are listed in more detail in the documentation section on [skeletonization](glossary:topological_skeleton). If you use this plugin in your analysis, please make sure to cite our [preprint](DEAD LINK)
+Used algorithms to cite if this plugin is used are listed in more detail in the documentation section on [skeletonization](glossary:topological_skeleton). If you use this plugin in your analysis, please make sure to cite our [preprint](https://arxiv.org/abs/2311.10539)
 
 ```{bibliography}
 ```
