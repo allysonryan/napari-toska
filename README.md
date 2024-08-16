@@ -7,7 +7,9 @@
 [![codecov](https://codecov.io/gh/allysonryan/napari-toska/branch/main/graph/badge.svg)](https://codecov.io/gh/allysonryan/napari-toska)
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari-toska)](https://napari-hub.org/plugins/napari-toska)
 
-Extracts and analyses topological skeletons as undirected graphs.
+Extracts and analyses topological skeletons as undirected graphs. For usage instructions and API reference, please refer to the documentation:
+
+## [Documentation](https://allysonryan.github.io/napari-toska/).
 
 ![](https://github.com/allysonryan/napari-toska/raw/main/docs/imgs/3d_skeleton_analysis.gif)
 
