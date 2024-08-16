@@ -1,30 +1,21 @@
 name: deploy-book
 
-# Run this when the master or main branch changes
+# Only run this when the master branch changes
 on:
   push:
     branches:
     - master
     - main
-    # If your git repository has the Jupyter Book within some-subfolder next to
-    # unrelated files, you can make this run only if a file within that specific
-    # folder has been modified.
-    #
-    # paths:
-    # - some-subfolder/**
 
-# This job installs dependencies, builds the book, and pushes it to `gh-pages`
+# This job installs dependencies, build the book, and pushes it to `gh-pages`
 jobs:
   deploy-book:
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
     steps:
     - uses: actions/checkout@v3
 
     # Install dependencies
-    - name: Set up Python 3.11
+    - name: Set up Python 3.9
       uses: actions/setup-python@v4
       with:
         python-version: 3.9
@@ -34,29 +25,13 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install jupyter-book
         python -m pip install .
-
-    # # (optional) Cache your executed notebooks between runs
-    # # if you have config:
-    # # execute:
-    # #   execute_notebooks: cache
-    # - name: cache executed notebooks
-    #   uses: actions/cache@v3
-    #   with:
-    #     path: _build/.jupyter_cache
-    #     key: jupyter-book-cache-${{ hashFiles('docs/requirements.txt') }}
-
     # Build the book
     - name: Build the book
       run: |
         jupyter-book build docs/
-
-    # Upload the book's HTML as an artifact
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v2
+    # Push the book's HTML to github-pages
+    - name: GitHub Pages action
+      uses: peaceiris/actions-gh-pages@v3.5.9
       with:
-        path: "docs/_build/html"
-
-    # Deploy the book's HTML to GitHub Pages
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v2
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs/_build/html
