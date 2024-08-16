@@ -1,0 +1,666 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>napari_toska._labeled_skeletonization &#8212; Napari-toska documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/napari_toska/_labeled_skeletonization';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/napari-toska_logo.png" class="logo__image only-light" alt="Napari-toska documentation - Home"/>
+    <script>document.write(`<img src="../../_static/napari-toska_logo.png" class="logo__image only-dark" alt="Napari-toska documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    napari-toska
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../examples/whole_skeleton_measurements_2d.html">Topological skeleton analysis in 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/whole_skeleton_measurements_3d.html">Topological skeleton analysis in 3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/measure_local_thickness.html">Local thickness</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Glossary</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../glossary/neighborhoods.html">Neighborhoods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary/skeletonization.html">Skeletonization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary/skeleton_components.html">Skeleton components</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../api/skeletonization.html"><cite>Skeletonization</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/graphs.html"><cite>Graphs</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/measurement.html"><cite>Measurement</cite></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for napari_toska._labeled_skeletonization</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">_2D_NEIGHBORHOODS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;n4&quot;</span><span class="p">,</span> <span class="s2">&quot;n8&quot;</span><span class="p">]</span>
+<span class="n">_3D_NEIGHBORHOODS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;n6&quot;</span><span class="p">,</span> <span class="s2">&quot;n18&quot;</span><span class="p">,</span> <span class="s2">&quot;n26&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="generate_labeled_skeletonization">
+<a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.generate_labeled_skeletonization">[docs]</a>
+<span class="k">def</span> <span class="nf">generate_labeled_skeletonization</span><span class="p">(</span><span class="n">label_image</span><span class="p">:</span><span class="s1">&#39;napari.types.LabelsData&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="s1">&#39;napari.types.LabelsData&#39;</span><span class="p">:</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Skeletonize a label image and relabels the skeleton to match input labels.</span>
+<span class="sd">    </span>
+<span class="sd">    The used skeletonization algorithm is the scikit-image implementation of Lee, 94.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    </span>
+<span class="sd">    label_image: napari.types.LabelsData</span>
+<span class="sd">        Input napari version of numpy.ndarray containing integer labels of an instance segmentation.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    labeled_skeletons: napari.types.LabelsData</span>
+<span class="sd">        A skeleton image multiplied by the respective label of the object of origin in the input label image.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="kn">import</span> <span class="n">skeletonize</span>
+
+    <span class="n">binary_skeleton</span> <span class="o">=</span> <span class="n">skeletonize</span><span class="p">(</span><span class="n">label_image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">binary_skeleton</span> <span class="o">=</span> <span class="n">binary_skeleton</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">binary_skeleton</span><span class="p">)</span>
+    <span class="n">labeled_skeletons</span> <span class="o">=</span> <span class="n">binary_skeleton</span> <span class="o">*</span> <span class="n">label_image</span>
+
+    <span class="k">return</span> <span class="n">labeled_skeletons</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="parse_all_skeletons">
+<a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.parse_all_skeletons">[docs]</a>
+<span class="k">def</span> <span class="nf">parse_all_skeletons</span><span class="p">(</span><span class="n">skeleton_image</span><span class="p">:</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">,</span>
+                        <span class="n">neighborhood</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;n4&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">measure</span>
+
+    <span class="n">properties</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">regionprops</span><span class="p">(</span><span class="n">skeleton_image</span><span class="p">)</span>
+    <span class="n">parsed_skeletons_assembly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">skeleton_image</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
+        <span class="n">sub_image</span> <span class="o">=</span> <span class="n">prop</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">]</span>
+        <span class="n">sub_bbox</span> <span class="o">=</span> <span class="n">prop</span><span class="p">[</span><span class="s2">&quot;bbox&quot;</span><span class="p">]</span>
+        <span class="n">sub_label</span> <span class="o">=</span> <span class="n">prop</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
+
+        <span class="c1"># pad subimages to avoid kernel failure on edges</span>
+        <span class="n">padded_sub_skeleton</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">sub_image</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">parsed_sub_skeleton</span> <span class="o">=</span> <span class="n">parse_single_skeleton</span><span class="p">(</span><span class="n">padded_sub_skeleton</span> <span class="o">*</span> <span class="n">sub_label</span><span class="p">,</span>
+                                                    <span class="n">sub_label</span><span class="p">,</span>
+                                                    <span class="n">neighborhood</span><span class="p">)</span>
+
+        <span class="c1"># remove padding for 2D or 3D image and add to assembly</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">skeleton_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">unpadded_image</span> <span class="o">=</span> <span class="n">parsed_sub_skeleton</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">y0</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">sub_bbox</span>
+            <span class="n">parsed_skeletons_assembly</span><span class="p">[</span><span class="n">y0</span><span class="p">:</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x0</span><span class="p">:</span> <span class="n">x1</span><span class="p">]</span> <span class="o">=</span> <span class="n">unpadded_image</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">skeleton_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">unpadded_image</span> <span class="o">=</span> <span class="n">parsed_sub_skeleton</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">z0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">z1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">sub_bbox</span>
+            <span class="n">parsed_skeletons_assembly</span><span class="p">[</span><span class="n">z0</span><span class="p">:</span> <span class="n">z1</span><span class="p">,</span> <span class="n">y0</span><span class="p">:</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x0</span><span class="p">:</span> <span class="n">x1</span><span class="p">]</span> <span class="o">=</span> <span class="n">unpadded_image</span>
+
+    <span class="k">return</span> <span class="n">parsed_skeletons_assembly</span></div>
+
+
+
+<div class="viewcode-block" id="parse_single_skeleton">
+<a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.parse_single_skeleton">[docs]</a>
+<span class="k">def</span> <span class="nf">parse_single_skeleton</span><span class="p">(</span><span class="n">skel</span><span class="p">:</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">,</span>
+                          <span class="n">label</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                          <span class="n">neighborhood</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;n4&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Label the skeleton of a 2D or 3D object with 4-, 6-, 8-, 18-, or 26-connectivity.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    skel : napari.types.LabelsData</span>
+<span class="sd">        A skeletonized image</span>
+<span class="sd">    label : int</span>
+<span class="sd">        The label of the object whose skeleton is to be labeled.</span>
+<span class="sd">    neighborhood : str</span>
+<span class="sd">        The neighborhood connectivity of the skeleton. Can be &quot;n4&quot;, &quot;n6&quot;, &quot;n8&quot;, &quot;n18&quot;, or &quot;n26&quot;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    skeleton_labels : napari.types.LabelsData</span>
+<span class="sd">        A labeled image with the same shape as `skel` where each pixel is</span>
+<span class="sd">        labeled as either an end point (1), a branch point (2), or a</span>
+<span class="sd">        skeleton pixel (3).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">._backend_toska_functions</span> <span class="kn">import</span> <span class="p">(</span><span class="n">n4_parse_skel_2d</span><span class="p">,</span>
+                                           <span class="n">n8_parse_skel_2d</span><span class="p">,</span>
+                                           <span class="n">n6_parse_skel_3d</span><span class="p">,</span>
+                                           <span class="n">n18_parse_skel_3d</span><span class="p">,</span>
+                                           <span class="n">n26_parse_skel_3d</span><span class="p">)</span>
+
+    <span class="c1"># retrieve chosen skeleton from image</span>
+    <span class="n">skel</span> <span class="o">=</span> <span class="n">skel</span> <span class="o">==</span> <span class="n">label</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">skel</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">x_dir</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">y_dir</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">neighborhood</span> <span class="o">==</span> <span class="s2">&quot;n4&quot;</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">e_pts</span><span class="p">,</span> <span class="n">b_pts</span><span class="p">,</span> <span class="n">brnch</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">n4_parse_skel_2d</span><span class="p">(</span><span class="n">skel</span><span class="p">,</span> <span class="n">y_dir</span><span class="p">,</span> <span class="n">x_dir</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">neighborhood</span> <span class="o">==</span> <span class="s2">&quot;n8&quot;</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">e_pts</span><span class="p">,</span> <span class="n">b_pts</span><span class="p">,</span> <span class="n">brnch</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">n8_parse_skel_2d</span><span class="p">(</span><span class="n">skel</span><span class="p">,</span> <span class="n">y_dir</span><span class="p">,</span> <span class="n">x_dir</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">skel</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">x_dir</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">y_dir</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">z_dir</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">neighborhood</span> <span class="o">==</span> <span class="s2">&quot;n6&quot;</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">e_pts</span><span class="p">,</span> <span class="n">b_pts</span><span class="p">,</span> <span class="n">brnch</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">n6_parse_skel_3d</span><span class="p">(</span><span class="n">skel</span><span class="p">,</span> <span class="n">z_dir</span><span class="p">,</span> <span class="n">y_dir</span><span class="p">,</span> <span class="n">x_dir</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">neighborhood</span> <span class="o">==</span> <span class="s2">&quot;n18&quot;</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">e_pts</span><span class="p">,</span> <span class="n">b_pts</span><span class="p">,</span> <span class="n">brnch</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">n18_parse_skel_3d</span><span class="p">(</span><span class="n">skel</span><span class="p">,</span> <span class="n">z_dir</span><span class="p">,</span> <span class="n">y_dir</span><span class="p">,</span> <span class="n">x_dir</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">neighborhood</span> <span class="o">==</span> <span class="s2">&quot;n26&quot;</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">e_pts</span><span class="p">,</span> <span class="n">b_pts</span><span class="p">,</span> <span class="n">brnch</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">n26_parse_skel_3d</span><span class="p">(</span><span class="n">skel</span><span class="p">,</span> <span class="n">z_dir</span><span class="p">,</span> <span class="n">y_dir</span><span class="p">,</span> <span class="n">x_dir</span><span class="p">)</span>
+
+    <span class="n">skeleton_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">skel</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">skeleton_labels</span><span class="p">[</span><span class="n">brnch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">skel</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">b_pts</span><span class="p">:</span>
+            <span class="n">skeleton_labels</span><span class="p">[</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">3</span>
+
+        <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">e_pts</span><span class="p">:</span>
+            <span class="n">skeleton_labels</span><span class="p">[</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">skel</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">b_pts</span><span class="p">:</span>
+            <span class="n">skeleton_labels</span><span class="p">[</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pt</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">3</span>
+
+        <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">e_pts</span><span class="p">:</span>
+            <span class="n">skeleton_labels</span><span class="p">[</span><span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pt</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">skeleton_labels</span></div>
+
+
+
+<div class="viewcode-block" id="label_branches">
+<a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.label_branches">[docs]</a>
+<span class="k">def</span> <span class="nf">label_branches</span><span class="p">(</span><span class="n">parsed_skeletons</span><span class="p">:</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">,</span>
+                   <span class="n">labelled_skeletons</span><span class="p">:</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">,</span>
+                   <span class="n">neighborhood</span><span class="p">:</span> <span class="nb">str</span>
+                   <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Label the branches of a skeleton image.</span>
+
+<span class="sd">    The branch labels start with 1 and increase for each branch.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    parsed_skeletons : napari.types.LabelsData</span>
+<span class="sd">        A skeleton image where each pixel is labelled according to the</span>
+<span class="sd">        point type which can be either a terminal point (1), a branching</span>
+<span class="sd">        point (3), or a chain point (2).</span>
+<span class="sd">    labelled_skeletons : napari.types.LabelsData</span>
+<span class="sd">        A skeleton image with each skeleton carrying a unique label.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    branch_label_image : napari.types.LabelsData</span>
+<span class="sd">        A skeleton image where each branch is labelled with a skeleton-wise</span>
+<span class="sd">        unique label. The branch labels of each skeleton start with 1 and</span>
+<span class="sd">        increase for each branch up to the number of branches in the</span>
+<span class="sd">        skeleton.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">ndimage</span>
+    <span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="n">get_neighborhood</span>
+
+    <span class="n">structure</span> <span class="o">=</span> <span class="n">get_neighborhood</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">)</span>
+
+    <span class="n">branch_image</span> <span class="o">=</span> <span class="n">parsed_skeletons</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="n">skeletons_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">labelled_skeletons</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">branch_label_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">labelled_skeletons</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">skeletons_ids</span><span class="p">:</span>
+        <span class="n">sub_skeleton_branches</span> <span class="o">=</span> <span class="n">branch_image</span> <span class="o">*</span> <span class="p">(</span><span class="n">labelled_skeletons</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">branch_label_image</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">label</span><span class="p">(</span>
+            <span class="n">sub_skeleton_branches</span><span class="p">,</span>
+            <span class="n">structure</span><span class="o">=</span><span class="n">structure</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">branch_label_image</span>
+
+    <span class="k">return</span> <span class="n">branch_label_image</span></div>
+
+
+
+<div class="viewcode-block" id="generate_labeled_outline">
+<a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.generate_labeled_outline">[docs]</a>
+<span class="k">def</span> <span class="nf">generate_labeled_outline</span><span class="p">(</span><span class="n">labels</span><span class="p">:</span> <span class="s1">&#39;napari.types.LabelsData&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a labeled outline of a label image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    labels : napari.types.LabelsData</span>
+<span class="sd">        A label image.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    outline : napari.types.LabelsData</span>
+<span class="sd">        A labeled outline of the label image.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">segmentation</span><span class="p">,</span> <span class="n">morphology</span>
+
+    <span class="n">outline</span> <span class="o">=</span> <span class="n">segmentation</span><span class="o">.</span><span class="n">find_boundaries</span><span class="p">(</span>
+        <span class="n">labels</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">connectivity</span><span class="o">=</span><span class="n">labels</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+    <span class="n">outline</span> <span class="o">=</span> <span class="n">morphology</span><span class="o">.</span><span class="n">skeletonize</span><span class="p">(</span><span class="n">outline</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">outline</span> <span class="o">*</span> <span class="n">labels</span></div>
+
+
+
+<div class="viewcode-block" id="generate_local_thickness_skeleton">
+<a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.generate_local_thickness_skeleton">[docs]</a>
+<span class="k">def</span> <span class="nf">generate_local_thickness_skeleton</span><span class="p">(</span>
+        <span class="n">outline</span><span class="p">:</span> <span class="s1">&#39;napari.types.LabelsData&#39;</span><span class="p">,</span>
+        <span class="n">labeled_skeleton</span><span class="p">:</span> <span class="s1">&#39;napari.types.LabelsData&#39;</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;napari.types.ImageData&#39;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a local thickness image of a skeleton.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    outline : napari.types.LabelsData</span>
+<span class="sd">        A labeled outline of a label image.</span>
+<span class="sd">    labeled_skeleton : napari.types.LabelsData</span>
+<span class="sd">        A labeled skeleton image.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    thickness_image : napari.types.ImageData</span>
+<span class="sd">        A local thickness image of the skeleton.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">cdist</span>
+    <span class="n">skeleton_coordinates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">labeled_skeleton</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">boundary_coordinates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">outline</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">distances_images</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">labeled_skeleton</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">skeleton_coordinates</span><span class="p">:</span>
+        <span class="n">distance</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">cdist</span><span class="p">([</span><span class="n">point</span><span class="p">],</span> <span class="n">boundary_coordinates</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+
+        <span class="n">distances_images</span><span class="p">[</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">distance</span>
+
+    <span class="k">return</span> <span class="n">distances_images</span></div>
+
+
+
+<div class="viewcode-block" id="reconstruct_from_local_thickness">
+<a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.reconstruct_from_local_thickness">[docs]</a>
+<span class="k">def</span> <span class="nf">reconstruct_from_local_thickness</span><span class="p">(</span>
+        <span class="n">thickness_image</span><span class="p">:</span> <span class="s1">&#39;napari.types.ImageData&#39;</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;napari.types.LabelsData&#39;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reconstruct a label image from a local thickness image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    thickness_image : napari.types.ImageData</span>
+<span class="sd">        A local thickness image of a skeleton.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    reconstruction : napari.types.LabelsData</span>
+<span class="sd">        A label image reconstructed from the local thickness image.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">draw</span>
+    <span class="n">reconstruction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">thickness_image</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="n">coordinates_skeleton</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">thickness_image</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">coordinates_skeleton</span><span class="p">:</span>
+        <span class="n">thickness</span> <span class="o">=</span> <span class="n">thickness_image</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">pt</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">thickness_image</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">sphere</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">draw</span><span class="o">.</span><span class="n">ellipsoid</span><span class="p">(</span><span class="n">thickness</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">thickness</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+
+            <span class="c1"># add offset to coordinates</span>
+            <span class="n">sphere</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">sphere</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">pt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                               <span class="n">sphere</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">pt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                               <span class="n">sphere</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">pt</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># overwrite values at coordinates</span>
+            <span class="n">reconstruction</span><span class="p">[</span><span class="n">sphere</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                           <span class="n">sphere</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+                           <span class="n">sphere</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">elif</span> <span class="n">thickness_image</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">disk</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">disk</span><span class="p">(</span><span class="n">pt</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">reconstruction</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">reconstruction</span><span class="p">[</span><span class="n">disk</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">reconstruction</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Allyson Quinn Ryan, Johannes Soltwedel
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
