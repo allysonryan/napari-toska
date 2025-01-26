@@ -63,7 +63,6 @@ class ToskaSkeleton(Labels):
         return
     
     def _build_nx_graph(self):
-        from skimage import morphology
         import tqdm
 
         # add all branch points and end points to Graph
@@ -75,27 +74,11 @@ class ToskaSkeleton(Labels):
 
         df_branches = self.features[self.features['object_type'] == 2]
 
+        # iterate over branches and find neighboring branch points or end points
         for i, row in tqdm.tqdm(df_branches.iterrows(), desc='Building Graph', total=len(df_branches)):
-            branch = self.data == row['label']
-            branch_point_coordinates = np.asarray(np.where(branch)).T
+            connecting_labels = self._find_neighboring_labels(row['label'])
 
-            # get bounding box around branch
-            min_coords = branch_point_coordinates.min(axis=0) - 1
-            max_coords = branch_point_coordinates.max(axis=0) + 2
-            # Create a tuple of slices for each dimension
-            slices = tuple(
-                slice(min_coord, max_coord) for min_coord, max_coord in zip(min_coords, max_coords)
-                )
-
-            # Crop the image data using the slices
-            cropped_branch = branch[slices]
-            cropped_branch = morphology.binary_dilation(cropped_branch, footprint=np.ones((3, 3)))
-            cropped_data = self.data[slices]
-
-            touching_labels = np.logical_xor(cropped_branch, cropped_data == row['label']) * cropped_data
-            connecting_labels = np.unique(touching_labels)
-            connecting_labels = connecting_labels[connecting_labels != 0]
-
+            # a branch should connect to exactly two other objects
             if len(connecting_labels) == 0:
                 self.features.iloc[i, self.features.columns.get_loc('object_type')] = 1
                 print('detected malformatted label: ', row['label'])
@@ -103,4 +86,44 @@ class ToskaSkeleton(Labels):
 
             self.graph.add_edge(connecting_labels[0], connecting_labels[1],
                                     label=row['label'])
+            
+        # check if there are any isolated nodes of type 1 (end points)
+        isolated_nodes = [node for node in self.graph.nodes if self.graph.degree(node) == 0]
+        if len(isolated_nodes) > 0:
+            print('Found isolated nodes: ', isolated_nodes)
+
+        # check for neighborhood around isolated nodes
+        for node in isolated_nodes:
+            connecting_labels = self._find_neighboring_labels(node)
+            if len(connecting_labels) == 2:
+                self.graph.add_edge(connecting_labels[0], connecting_labels[1],
+                                    label=None)
+            else:
+                print('Could not connect isolated node: ', node)
+
+    def _find_neighboring_labels(self, query_label: int):
+        from skimage import morphology
+
+        branch = self.data == query_label
+        branch_point_coordinates = np.asarray(np.where(branch)).T
+
+        # get bounding box around branch
+        min_coords = branch_point_coordinates.min(axis=0) - 1
+        max_coords = branch_point_coordinates.max(axis=0) + 2
+        # Create a tuple of slices for each dimension
+        slices = tuple(
+            slice(min_coord, max_coord) for min_coord, max_coord in zip(min_coords, max_coords)
+            )
+
+        # Crop the image data using the slices,
+        # then expand the branch points to overlap with the neighboring objects
+        cropped_branch = branch[slices]
+        cropped_branch = morphology.binary_dilation(cropped_branch, footprint=np.ones((3, 3)))
+        cropped_data = self.data[slices]
+
+        touching_labels = np.logical_xor(cropped_branch, cropped_data == query_label) * cropped_data
+        connecting_labels = np.unique(touching_labels)
+        connecting_labels = connecting_labels[connecting_labels != 0]
+
+        return connecting_labels
 
