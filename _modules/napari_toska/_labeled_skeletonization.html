@@ -15,19 +15,21 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -35,10 +37,11 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
@@ -61,6 +64,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -76,19 +80,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -96,7 +89,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -104,8 +96,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -123,7 +115,8 @@
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -153,21 +146,17 @@
     
     
     <img src="../../_static/napari-toska_logo.png" class="logo__image only-light" alt="Napari-toska documentation - Home"/>
-    <script>document.write(`<img src="../../_static/napari-toska_logo.png" class="logo__image only-dark" alt="Napari-toska documentation - Home"/>`);</script>
+    <img src="../../_static/napari-toska_logo.png" class="logo__image only-dark pst-js-only" alt="Napari-toska documentation - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -203,9 +192,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -254,24 +248,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 
 </div></div>
       
@@ -298,14 +284,14 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for napari_toska._labeled_skeletonization</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="n">_2D_NEIGHBORHOODS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;n4&quot;</span><span class="p">,</span> <span class="s2">&quot;n8&quot;</span><span class="p">]</span>
 <span class="n">_3D_NEIGHBORHOODS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;n6&quot;</span><span class="p">,</span> <span class="s2">&quot;n18&quot;</span><span class="p">,</span> <span class="s2">&quot;n26&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="generate_labeled_skeletonization">
 <a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.generate_labeled_skeletonization">[docs]</a>
-<span class="k">def</span> <span class="nf">generate_labeled_skeletonization</span><span class="p">(</span><span class="n">label_image</span><span class="p">:</span><span class="s1">&#39;napari.types.LabelsData&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="s1">&#39;napari.types.LabelsData&#39;</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_labeled_skeletonization</span><span class="p">(</span><span class="n">label_image</span><span class="p">:</span><span class="s1">&#39;napari.types.LabelsData&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="s1">&#39;napari.types.LabelsData&#39;</span><span class="p">:</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Skeletonize a label image and relabels the skeleton to match input labels.</span>
@@ -325,7 +311,7 @@ document.write(`
 <span class="sd">        A skeleton image multiplied by the respective label of the object of origin in the input label image.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="kn">import</span> <span class="n">skeletonize</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">skimage.morphology</span><span class="w"> </span><span class="kn">import</span> <span class="n">skeletonize</span>
 
     <span class="n">binary_skeleton</span> <span class="o">=</span> <span class="n">skeletonize</span><span class="p">(</span><span class="n">label_image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">binary_skeleton</span> <span class="o">=</span> <span class="n">binary_skeleton</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">binary_skeleton</span><span class="p">)</span>
@@ -337,9 +323,9 @@ document.write(`
 
 <div class="viewcode-block" id="parse_all_skeletons">
 <a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.parse_all_skeletons">[docs]</a>
-<span class="k">def</span> <span class="nf">parse_all_skeletons</span><span class="p">(</span><span class="n">skeleton_image</span><span class="p">:</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_all_skeletons</span><span class="p">(</span><span class="n">skeleton_image</span><span class="p">:</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">,</span>
                         <span class="n">neighborhood</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;n4&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">measure</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">measure</span>
 
     <span class="n">properties</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">regionprops</span><span class="p">(</span><span class="n">skeleton_image</span><span class="p">)</span>
     <span class="n">parsed_skeletons_assembly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">skeleton_image</span><span class="p">)</span>
@@ -371,7 +357,7 @@ document.write(`
 
 <div class="viewcode-block" id="parse_single_skeleton">
 <a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.parse_single_skeleton">[docs]</a>
-<span class="k">def</span> <span class="nf">parse_single_skeleton</span><span class="p">(</span><span class="n">skel</span><span class="p">:</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_single_skeleton</span><span class="p">(</span><span class="n">skel</span><span class="p">:</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">,</span>
                           <span class="n">label</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
                           <span class="n">neighborhood</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;n4&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -393,7 +379,7 @@ document.write(`
 <span class="sd">        labeled as either an end point (1), a branch point (2), or a</span>
 <span class="sd">        skeleton pixel (3).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">._backend_toska_functions</span> <span class="kn">import</span> <span class="p">(</span><span class="n">n4_parse_skel_2d</span><span class="p">,</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">._backend_toska_functions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">n4_parse_skel_2d</span><span class="p">,</span>
                                            <span class="n">n8_parse_skel_2d</span><span class="p">,</span>
                                            <span class="n">n6_parse_skel_3d</span><span class="p">,</span>
                                            <span class="n">n18_parse_skel_3d</span><span class="p">,</span>
@@ -444,7 +430,7 @@ document.write(`
 
 <div class="viewcode-block" id="label_branches">
 <a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.label_branches">[docs]</a>
-<span class="k">def</span> <span class="nf">label_branches</span><span class="p">(</span><span class="n">parsed_skeletons</span><span class="p">:</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">label_branches</span><span class="p">(</span><span class="n">parsed_skeletons</span><span class="p">:</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">,</span>
                    <span class="n">labelled_skeletons</span><span class="p">:</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">,</span>
                    <span class="n">neighborhood</span><span class="p">:</span> <span class="nb">str</span>
                    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">:</span>
@@ -470,9 +456,9 @@ document.write(`
 <span class="sd">        increase for each branch up to the number of branches in the</span>
 <span class="sd">        skeleton.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-    <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">ndimage</span>
-    <span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="n">get_neighborhood</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">ndimage</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">._utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_neighborhood</span>
 
     <span class="n">structure</span> <span class="o">=</span> <span class="n">get_neighborhood</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">)</span>
 
@@ -492,7 +478,7 @@ document.write(`
 
 <div class="viewcode-block" id="generate_labeled_outline">
 <a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.generate_labeled_outline">[docs]</a>
-<span class="k">def</span> <span class="nf">generate_labeled_outline</span><span class="p">(</span><span class="n">labels</span><span class="p">:</span> <span class="s1">&#39;napari.types.LabelsData&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_labeled_outline</span><span class="p">(</span><span class="n">labels</span><span class="p">:</span> <span class="s1">&#39;napari.types.LabelsData&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate a labeled outline of a label image.</span>
 
@@ -506,7 +492,7 @@ document.write(`
 <span class="sd">    outline : napari.types.LabelsData</span>
 <span class="sd">        A labeled outline of the label image.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">segmentation</span><span class="p">,</span> <span class="n">morphology</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">segmentation</span><span class="p">,</span> <span class="n">morphology</span>
 
     <span class="n">outline</span> <span class="o">=</span> <span class="n">segmentation</span><span class="o">.</span><span class="n">find_boundaries</span><span class="p">(</span>
         <span class="n">labels</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
@@ -518,7 +504,7 @@ document.write(`
 
 <div class="viewcode-block" id="generate_local_thickness_skeleton">
 <a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.generate_local_thickness_skeleton">[docs]</a>
-<span class="k">def</span> <span class="nf">generate_local_thickness_skeleton</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_local_thickness_skeleton</span><span class="p">(</span>
         <span class="n">outline</span><span class="p">:</span> <span class="s1">&#39;napari.types.LabelsData&#39;</span><span class="p">,</span>
         <span class="n">labeled_skeleton</span><span class="p">:</span> <span class="s1">&#39;napari.types.LabelsData&#39;</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;napari.types.ImageData&#39;</span><span class="p">:</span>
@@ -537,7 +523,7 @@ document.write(`
 <span class="sd">    thickness_image : napari.types.ImageData</span>
 <span class="sd">        A local thickness image of the skeleton.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">cdist</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">cdist</span>
     <span class="n">skeleton_coordinates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">labeled_skeleton</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
     <span class="n">boundary_coordinates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">outline</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
 
@@ -553,7 +539,7 @@ document.write(`
 
 <div class="viewcode-block" id="reconstruct_from_local_thickness">
 <a class="viewcode-back" href="../../api/skeletonization.html#napari_toska.reconstruct_from_local_thickness">[docs]</a>
-<span class="k">def</span> <span class="nf">reconstruct_from_local_thickness</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">reconstruct_from_local_thickness</span><span class="p">(</span>
         <span class="n">thickness_image</span><span class="p">:</span> <span class="s1">&#39;napari.types.ImageData&#39;</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;napari.types.LabelsData&#39;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -569,7 +555,7 @@ document.write(`
 <span class="sd">    reconstruction : napari.types.LabelsData</span>
 <span class="sd">        A label image reconstructed from the local thickness image.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">draw</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw</span>
     <span class="n">reconstruction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">thickness_image</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 
     <span class="n">coordinates_skeleton</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">thickness_image</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
@@ -657,8 +643,8 @@ By Allyson Quinn Ryan, Johannes Soltwedel
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
