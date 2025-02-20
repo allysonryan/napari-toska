@@ -158,6 +158,10 @@ class ToskaSkeleton(Labels):
         self.features = pd.merge(self.features, branch_lengths, on='label', how='left')
         self.features['branch_length'] = self.features['branch_length'].fillna(0)
 
+        # update graph edge weights with branch lengths
+        for u, v, data in self.graph.edges(data=True):
+            data['branch_length'] = self.features[self.features['label'] == data['label']]['branch_length'].values[0]
+
     def _find_neighboring_labels(self, query_label: int):
         from skimage import morphology
 
