@@ -45,9 +45,11 @@ class ToskaSkeleton(Labels):
         self._parse_skeleton()
         self._build_nx_graph()
         self._measure_branch_length()
+        self._detect_spines()
 
         # drop index column
-        self.features = self.features.drop(columns='index')
+        if 'index' in self.features.columns:
+            self.features = self.features.drop(columns='index')
 
     @property
     def neighborhood(self):
@@ -187,3 +189,61 @@ class ToskaSkeleton(Labels):
         connecting_labels = connecting_labels[connecting_labels != 0]
 
         return connecting_labels
+    
+    def _detect_spines(self):
+        import tqdm
+        
+    
+        graph = self.graph.copy()
+        self.features['spine'] = 0
+
+        # split in connected components
+        connected_components = list(nx.connected_components(graph))
+
+        # find degree 1 nodes in connected components
+        for idx, component in tqdm.tqdm(enumerate(connected_components), total=len(connected_components), desc='Finding spines'):
+            spine_nodes = []
+            for node in component:
+                if graph.degree(node) == 1:
+                    spine_nodes.append(int(node))
+
+            if len(spine_nodes) < 2:
+                continue
+
+            # measure distances between every pair of spine nodes
+            spine_distances = []
+            for i, spine_node in enumerate(spine_nodes):
+                for j in range(i+1, len(spine_nodes)):
+                    path = [int(i) for i in nx.shortest_path(graph, source=spine_node, target=spine_nodes[j])]
+
+                    # measure distance as per the edge attrbitue 'branch_length'
+                    distance = 0
+                    edge_labels = []
+
+                    for k in range(len(path) - 1):
+                        distance += graph[path[k]][path[k+1]]['branch_length']
+                        edge_labels.append(graph[path[k]][path[k+1]]['label'])
+
+                    # for k in range(len(path) - 1):
+                    #     distance += graph[path[k]][path[k+1]]['branch_length']
+
+                    spine_distances.append({
+                        'spine_1': spine_node,
+                        'spine_2': spine_nodes[j],
+                        'distance': distance,
+                        'edge_labels': [int(i) for i in edge_labels]
+                    })
+
+            # sort by distance
+            spine_distances = pd.DataFrame(spine_distances)
+            spine_distances = spine_distances.sort_values(by='distance')
+
+            # set spine attribute to 1 for nodes and edges in shortest path
+            longest_shortest_path = spine_distances.iloc[-1]
+            #graph.edges[shortest_path['spine_1'], shortest_path['spine_2']]['spine'] = 1
+            
+            for label in longest_shortest_path['edge_labels']:
+                self.features.loc[self.features['label'] == label, 'spine'] = 1
+                
+
+            
