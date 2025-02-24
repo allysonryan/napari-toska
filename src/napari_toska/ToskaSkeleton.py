@@ -82,9 +82,9 @@ class ToskaSkeleton(Labels):
 
         # add object types to features (branch/end/chain)
         object_types = np.ones((unique_labels.max()), dtype=int)
-        object_types[:n_endpoints] = 1
-        object_types[n_endpoints:n_endpoints + n_branches] = 2
-        object_types[n_endpoints + n_branches:] = 3
+        object_types[:n_endpoints] = 1  # end points
+        object_types[n_endpoints:n_endpoints + n_branches] = 2  # branches
+        object_types[n_endpoints + n_branches:] = 3  # branch points
 
         self.data = unique_labels
         self.features = pd.DataFrame({
