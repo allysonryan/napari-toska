@@ -62,6 +62,14 @@ class ToskaSkeleton(Labels):
     @graph.setter
     def graph(self, graph: nx.Graph):
         self.metadata['graph'] = graph
+
+    def create_feature_map(self, feature: str) -> "napari.types.ImageData":
+        feature_map = np.zeros(self.data.shape, dtype=int)
+
+        for _, row in self.features.iterrows():
+            feature_map[self.data == row['label']] = row[feature]
+
+        return feature_map
     
     def _parse_skeleton(self) -> None:
         from skimage import measure
