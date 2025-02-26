@@ -46,6 +46,7 @@ class ToskaSkeleton(Labels):
         self._build_nx_graph()
         self._measure_branch_length()
         self._detect_spines()
+        self._graph_summary()
 
         # drop index column
         if 'index' in self.features.columns:
@@ -264,10 +265,11 @@ class ToskaSkeleton(Labels):
         import tqdm
 
         # get subgraphs
-        connected_components = list(nx.connected_components(self.graph))
+        connected_components = [self.graph.subgraph(c).copy() for c in nx.connected_components(self.graph)]
         self.features['n_branches'] = 0
         self.features['n_endpoints'] = 0
-        self.features['n_branchpoints'] = 0
+        self.features['n_branch_points'] = 0
+        self.features['n_nodes'] = 0
 
         for component in tqdm.tqdm(connected_components, desc='Calculating summary features', total=len(connected_components)):
             
@@ -290,6 +292,7 @@ class ToskaSkeleton(Labels):
             labels = edge_labels + node_labels
             self.features.loc[self.features['label'].isin(labels), 'n_branches'] = n_branches
             self.features.loc[self.features['label'].isin(labels), 'n_endpoints'] = n_endpoints
-            self.features.loc[self.features['label'].isin(labels), 'n_branchpoints'] = n_branchpoints
+            self.features.loc[self.features['label'].isin(labels), 'n_branch_points'] = n_branchpoints
             self.features.loc[self.features['label'].isin(labels), 'n_cycle_basis'] = n_cycle_basis
             self.features.loc[self.features['label'].isin(labels), 'n_possible_undirected_cycles'] = n_possible_undirected_cycles
+            self.features.loc[self.features['label'].isin(labels), 'n_nodes'] = n_branchpoints + n_endpoints
