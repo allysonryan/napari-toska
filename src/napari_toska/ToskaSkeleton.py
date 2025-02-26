@@ -191,6 +191,13 @@ class ToskaSkeleton(Labels):
         return connecting_labels
     
     def _detect_spines(self):
+        """
+        Detect spines in the skeleton graph.
+
+        Returns:
+        --------
+        None
+        """
         import tqdm
         
     
