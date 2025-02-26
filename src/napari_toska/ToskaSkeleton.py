@@ -252,5 +252,36 @@ class ToskaSkeleton(Labels):
             for label in longest_shortest_path['edge_labels']:
                 self.features.loc[self.features['label'] == label, 'spine'] = 1
                 
+    def _graph_summary(self):
+        import tqdm
 
+        # get subgraphs
+        connected_components = list(nx.connected_components(self.graph))
+        self.features['n_branches'] = 0
+        self.features['n_endpoints'] = 0
+        self.features['n_branchpoints'] = 0
+
+        for component in tqdm.tqdm(connected_components, desc='Calculating summary features', total=len(connected_components)):
             
+            n_branches = len(component.edges)
+            n_endpoints = len([node for node in component.nodes if component.degree(node) == 1])
+            n_branchpoints = len([node for node in component.nodes if component.degree(node) > 2])
+
+            # cycle basis
+            directed_graph = component.to_directed()
+            possible_directed_cycles = list(nx.simple_cycles(directed_graph))
+
+            n_cycle_basis = len(nx.cycle_basis(component))
+            n_possible_undirected_cycles = len(
+                [x for x in possible_directed_cycles if len(x) > 2])//2
+
+            # add to features
+            # get label property of all edges and nodes
+            edge_labels = [component[u][v]['label'] for u, v in component.edges]
+            node_labels = [component.nodes[node]['label'] for node in component.nodes]
+            labels = edge_labels + node_labels
+            self.features.loc[self.features['label'].isin(labels), 'n_branches'] = n_branches
+            self.features.loc[self.features['label'].isin(labels), 'n_endpoints'] = n_endpoints
+            self.features.loc[self.features['label'].isin(labels), 'n_branchpoints'] = n_branchpoints
+            self.features.loc[self.features['label'].isin(labels), 'n_cycle_basis'] = n_cycle_basis
+            self.features.loc[self.features['label'].isin(labels), 'n_possible_undirected_cycles'] = n_possible_undirected_cycles
