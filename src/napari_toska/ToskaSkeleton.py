@@ -152,7 +152,6 @@ class ToskaSkeleton(Labels):
 
     def _measure_branch_length(self):
         # create a label images with only branch labels, mute all the others
-
         LUT = np.asarray([0] + list(self.features['label']))
         object_type = np.asarray([0] + list(self.features['object_type']))
 
@@ -202,6 +201,8 @@ class ToskaSkeleton(Labels):
     def _detect_spines(self):
         """
         Detect spines in the skeleton graph.
+
+        The spine is defined as the longest path between two degree 1 nodes in the skeleton graph.
 
         Returns:
         --------
@@ -262,6 +263,30 @@ class ToskaSkeleton(Labels):
                 self.features.loc[self.features['label'] == label, 'spine'] = 1
                 
     def _graph_summary(self):
+        """
+        Calculate summary features of the skeleton graph.
+
+        The following features are calculated:
+        - n_branches:
+            The number of branches in the skeleton.
+        - n_endpoints:
+            The number of endpoints in the skeleton.
+        - n_branch_points:
+            The number of branch points in the skeleton.
+        - n_nodes:
+            The number of nodes in the skeleton, which is the sum of branch points and endpoints.
+        - n_cycle_basis:
+            The number of cycle basis in the skeleton. A cycle basis is a set of cycles that
+            can be used to generate all other cycles in a graph.
+        - n_possible_undirected_cycles:
+            The number of possible undirected cycles in the skeleton. An undirected cycle is a
+            path that starts and ends at the same node and visits each node only
+            once (except for the starting node).
+
+        Returns:
+        --------
+        None
+        """
         import tqdm
 
         # get subgraphs
