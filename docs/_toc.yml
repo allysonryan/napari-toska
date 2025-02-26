@@ -25,6 +25,7 @@ parts:
 
 - caption: API
   chapters:
+  - file: api/ToskaSkeleton
   - file: api/skeletonization
   - file: api/graphs
   - file: api/measurement

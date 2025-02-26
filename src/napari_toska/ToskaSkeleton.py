@@ -25,7 +25,34 @@ class ToskaSkeleton(Labels):
     neighborhood : str
         The neighborhood connectivity of the skeleton.
     graph : nx.Graph
-        A networkx graph representing the skeleton.
+        A networkx graph representing the skeleton. The graph is built
+        from the skeleton data and is stored in `layer.metadata` for easy access.
+    features : pd.DataFrame
+        A DataFrame containing features of the individual nodes and edges of the skeleton
+        graph but also of the skeleton as a whole.
+
+    Methods:
+    --------
+    analyze()
+        Analyze the skeleton data and build a networkx graph from it.
+    create_feature_map(feature: str) -> napari.types.ImageData
+        Create a feature map from the skeleton data. Any column
+        in the features DataFrame can be used as a feature.
+
+    Examples:
+    ---------
+    >>> import napari
+    >>> import napari_toska as nts
+    >>> from skimage.data import binary_blobs
+    >>> from skimage.measure import label
+    >>> 
+    >>> # create a binary image
+    >>> labels = label(binary_blobs(rng=0))
+    >>> 
+    >>> # Build the Skeleton object
+    >>> Skeleton = nts.ToskaSkeleton(labels, neighborhood='n8')
+    >>> Skeleton.analyze()
+
     """
 
     def __init__(self, labels_data: "napari.types.LabelsData", neighborhood: str, **kwargs):
