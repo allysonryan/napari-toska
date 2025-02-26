@@ -62,6 +62,14 @@ class ToskaSkeleton(Labels):
     @graph.setter
     def graph(self, graph: nx.Graph):
         self.metadata['graph'] = graph
+
+    def create_feature_map(self, feature: str) -> "napari.types.ImageData":
+        feature_map = np.zeros(self.data.shape, dtype=int)
+
+        for _, row in self.features.iterrows():
+            feature_map[self.data == row['label']] = row[feature]
+
+        return feature_map
     
     def _parse_skeleton(self) -> None:
         from skimage import measure
@@ -82,9 +90,9 @@ class ToskaSkeleton(Labels):
 
         # add object types to features (branch/end/chain)
         object_types = np.ones((unique_labels.max()), dtype=int)
-        object_types[:n_endpoints] = 1
-        object_types[n_endpoints:n_endpoints + n_branches] = 2
-        object_types[n_endpoints + n_branches:] = 3
+        object_types[:n_endpoints] = 1  # end points
+        object_types[n_endpoints:n_endpoints + n_branches] = 2  # branches
+        object_types[n_endpoints + n_branches:] = 3  # branch points
 
         self.data = unique_labels
         self.features = pd.DataFrame({

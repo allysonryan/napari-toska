@@ -9,6 +9,13 @@ def test_skeletonization():
 
     assert skeleton.max() == 15
 
+    # test ToskaSkeleton
+    Skeleton = nts.ToskaSkeleton(labels, neighborhood='n8')
+    Skeleton.analyze()
+    labeled_skeleton = Skeleton.create_feature_map(feature='skeleton_id')
+    assert labeled_skeleton.max() == 15
+
+
 def test_simple_skeleton():
     import napari_toska as nts
     from skimage.morphology import skeletonize
@@ -49,6 +56,15 @@ def test_skeleton_parsing():
 
     parsed_skeleton = nts.parse_all_skeletons(skeleton,
                                               neighborhood="n8")
+    for i in [1, 2, 3]:
+        assert i in np.unique(parsed_skeleton)
+
+    # Test ToskaSkeleton
+    Skeleton = nts.ToskaSkeleton(labels, neighborhood='n8')
+    Skeleton.analyze()
+
+    # Test ToskaSkeleton
+    parsed_skeleton = Skeleton.create_feature_map(feature='object_type')
     for i in [1, 2, 3]:
         assert i in np.unique(parsed_skeleton)
 
@@ -113,6 +129,24 @@ def test_measurements():
     assert features_fine.shape[0] == 11
     assert np.array_equal(features_fine['degree'].dropna().unique(), [3, 1])
     assert np.array_equal(features_fine['component_type'].unique(), ['node', 'edge'])
+
+    # Test ToskaSkeleton
+    Skeleton = nts.ToskaSkeleton(mock_skeleton, neighborhood='n8')
+    Skeleton.analyze()
+    
+    features = Skeleton.features
+    assert len(features[features['object_type'] == 1]) == 4
+    assert len(features[features['object_type'] == 2]) == 5
+    assert len(features[features['object_type'] == 3]) == 2
+
+    assert features.loc[0]['n_cycle_basis'] == 0
+    assert features.loc[0]['n_branch_points'] == 2
+    assert features.loc[0]['n_endpoints'] == 4
+    assert features.loc[0]['n_nodes'] == 6
+    assert features.loc[0]['n_branches'] == 5
+    assert features.loc[0]['skeleton_id'] == 1
+    # assert features.loc[0]['spine_length'] == 3
+
 
 
 def test_measurement_3d():
