@@ -10,6 +10,7 @@ options:
 parts:
 - caption: Examples
   chapters: 
+  - file: examples/ToskaSkeleton
   - file: examples/whole_skeleton_measurements_2d
   - file: examples/whole_skeleton_measurements_3d
   - file: examples/measure_local_thickness
