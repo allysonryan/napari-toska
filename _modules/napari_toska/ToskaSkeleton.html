@@ -1,0 +1,724 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>napari_toska.ToskaSkeleton &#8212; Napari-toska documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/napari_toska/ToskaSkeleton';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/napari-toska_logo.png" class="logo__image only-light" alt="Napari-toska documentation - Home"/>
+    <script>document.write(`<img src="../../_static/napari-toska_logo.png" class="logo__image only-dark" alt="Napari-toska documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    napari-toska
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../examples/ToskaSkeleton.html">ToskaSkeleton class for skeleton analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/whole_skeleton_measurements_2d.html">Topological skeleton analysis in 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/whole_skeleton_measurements_3d.html">Topological skeleton analysis in 3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/measure_local_thickness.html">Local thickness</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Glossary</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../glossary/neighborhoods.html">Neighborhoods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary/skeletonization.html">Skeletonization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary/skeleton_components.html">Skeleton components</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../api/ToskaSkeleton.html"><cite>ToskaSkeleton</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/skeletonization.html"><cite>Skeletonization</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/graphs.html"><cite>Graphs</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/measurement.html"><cite>Measurement</cite></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for napari_toska.ToskaSkeleton</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">napari.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Labels</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">napari_toska</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nts</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+
+<div class="viewcode-block" id="ToskaSkeleton">
+<a class="viewcode-back" href="../../api/ToskaSkeleton.html#napari_toska.ToskaSkeleton">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ToskaSkeleton</span><span class="p">(</span><span class="n">Labels</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to represent a skeleton image in napari.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    labels_data : napari.types.LabelsData</span>
+<span class="sd">        The data to be processed - has to be a napari Label image.</span>
+<span class="sd">    neighborhood : str</span>
+<span class="sd">        The neighborhood connectivity of the skeleton. Can be &quot;n4&quot;,</span>
+<span class="sd">        &quot;n6&quot;, &quot;n8&quot;, &quot;n18&quot;, or &quot;n26&quot;. &quot;n4&quot; and &quot;n8&quot; apply only to 2D images.</span>
+<span class="sd">        &quot;n6&quot;, &quot;n18&quot;, and &quot;n26&quot; apply to 3D images.</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Additional keyword arguments to pass to the Labels layer.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    neighborhood : str</span>
+<span class="sd">        The neighborhood connectivity of the skeleton.</span>
+<span class="sd">    graph : nx.Graph</span>
+<span class="sd">        A networkx graph representing the skeleton. The graph is built</span>
+<span class="sd">        from the skeleton data and is stored in `layer.metadata` for easy access.</span>
+<span class="sd">    features : pd.DataFrame</span>
+<span class="sd">        A DataFrame containing features of the individual nodes and edges of the skeleton</span>
+<span class="sd">        graph but also of the skeleton as a whole.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">    --------</span>
+<span class="sd">    analyze()</span>
+<span class="sd">        Analyze the skeleton data and build a networkx graph from it.</span>
+<span class="sd">    create_feature_map(feature: str) -&gt; napari.types.ImageData</span>
+<span class="sd">        Create a feature map from the skeleton data. Any column</span>
+<span class="sd">        in the features DataFrame can be used as a feature.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; import napari</span>
+<span class="sd">    &gt;&gt;&gt; import napari_toska as nts</span>
+<span class="sd">    &gt;&gt;&gt; from skimage.data import binary_blobs</span>
+<span class="sd">    &gt;&gt;&gt; from skimage.measure import label</span>
+<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    &gt;&gt;&gt; # create a binary image</span>
+<span class="sd">    &gt;&gt;&gt; labels = label(binary_blobs(rng=0))</span>
+<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    &gt;&gt;&gt; # Build the Skeleton object</span>
+<span class="sd">    &gt;&gt;&gt; Skeleton = nts.ToskaSkeleton(labels, neighborhood=&#39;n8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; Skeleton.analyze()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels_data</span><span class="p">:</span> <span class="s2">&quot;napari.types.LabelsData&quot;</span><span class="p">,</span> <span class="n">neighborhood</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">labels_data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_neighborhood</span> <span class="o">=</span> <span class="n">neighborhood</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+        
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analyze the skeleton data and build a networkx graph from it.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        --------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parse_skeleton</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_nx_graph</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measure_branch_length</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_detect_spines</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graph_summary</span><span class="p">()</span>
+
+        <span class="c1"># drop index column</span>
+        <span class="k">if</span> <span class="s1">&#39;index&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">neighborhood</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_neighborhood</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">graph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;graph&#39;</span><span class="p">)</span>
+    
+    <span class="nd">@graph</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;graph&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_feature_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;napari.types.ImageData&quot;</span><span class="p">:</span>
+        <span class="n">feature_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">feature_map</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">feature_map</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_skeleton</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">measure</span>
+
+        <span class="n">labelled_skeletons</span> <span class="o">=</span> <span class="n">nts</span><span class="o">.</span><span class="n">generate_labeled_skeletonization</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">parsed_skeletons</span> <span class="o">=</span> <span class="n">nts</span><span class="o">.</span><span class="n">parse_all_skeletons</span><span class="p">(</span><span class="n">labelled_skeletons</span><span class="p">,</span> <span class="n">neighborhood</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_neighborhood</span><span class="p">)</span>
+        <span class="n">end_points</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parsed_skeletons</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">branches</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parsed_skeletons</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">branch_points</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">parsed_skeletons</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+
+        <span class="c1"># create a labels image with unique labels for each object</span>
+        <span class="n">n_endpoints</span> <span class="o">=</span> <span class="n">end_points</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">n_branches</span> <span class="o">=</span> <span class="n">branches</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">branches</span><span class="p">[</span><span class="n">branches</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n_endpoints</span>
+        <span class="n">branch_points</span><span class="p">[</span><span class="n">branch_points</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n_endpoints</span> <span class="o">+</span> <span class="n">n_branches</span>
+
+        <span class="n">unique_labels</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_points</span> <span class="o">+</span> <span class="n">branches</span> <span class="o">+</span> <span class="n">branch_points</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="c1"># add object types to features (branch/end/chain)</span>
+        <span class="n">object_types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">unique_labels</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">object_types</span><span class="p">[:</span><span class="n">n_endpoints</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># end points</span>
+        <span class="n">object_types</span><span class="p">[</span><span class="n">n_endpoints</span><span class="p">:</span><span class="n">n_endpoints</span> <span class="o">+</span> <span class="n">n_branches</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># branches</span>
+        <span class="n">object_types</span><span class="p">[</span><span class="n">n_endpoints</span> <span class="o">+</span> <span class="n">n_branches</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># branch points</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">unique_labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">unique_labels</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+            <span class="s1">&#39;object_type&#39;</span><span class="p">:</span> <span class="n">object_types</span><span class="p">,</span>
+        <span class="p">})</span>
+
+        <span class="c1"># add skeleton ID to features</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;skeleton_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labelled_skeletons</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># make column type int</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;skeleton_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;skeleton_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="k">return</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_nx_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">tqdm</span>
+
+        <span class="c1"># add all branch points and end points to Graph</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;object_type&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">],</span>
+                                    <span class="n">object_type</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;object_type&#39;</span><span class="p">],</span>
+                                    <span class="n">label</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+        
+
+        <span class="n">df_branches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;object_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
+
+        <span class="c1"># iterate over branches and find neighboring branch points or end points</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">df_branches</span><span class="o">.</span><span class="n">iterrows</span><span class="p">(),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Building Graph&#39;</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df_branches</span><span class="p">)):</span>
+            <span class="n">connecting_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_neighboring_labels</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+
+            <span class="c1"># a branch should connect to exactly two other objects</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">connecting_labels</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="s1">&#39;object_type&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;detected malformatted label: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">])),</span>
+                      <span class="s1">&#39;changed type from 2 (branch) -&gt; 1 (end point)&#39;</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">connecting_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">connecting_labels</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                    <span class="n">label</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+            
+        <span class="c1"># check if there are any isolated nodes of type 1 (end points)</span>
+        <span class="n">isolated_nodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">isolated_nodes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Found isolated nodes: &#39;</span><span class="p">,</span> <span class="n">isolated_nodes</span><span class="p">)</span>
+
+        <span class="c1"># check for neighborhood around isolated nodes</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">isolated_nodes</span><span class="p">:</span>
+            <span class="n">connecting_labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_neighboring_labels</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">connecting_labels</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">connecting_labels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">connecting_labels</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                    <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Could not connect isolated node: &#39;</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_measure_branch_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># create a label images with only branch labels, mute all the others</span>
+        <span class="n">LUT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]))</span>
+        <span class="n">object_type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;object_type&#39;</span><span class="p">]))</span>
+
+        <span class="c1"># set entries to zero where the object type is 1 or 3</span>
+        <span class="n">LUT</span><span class="p">[</span><span class="n">object_type</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">LUT</span><span class="p">[</span><span class="n">object_type</span> <span class="o">==</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">branch_label_image</span> <span class="o">=</span> <span class="n">LUT</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
+
+
+        <span class="c1"># measure the length of each branch</span>
+        <span class="n">branch_lengths</span> <span class="o">=</span> <span class="n">nts</span><span class="o">.</span><span class="n">calculate_branch_lengths</span><span class="p">(</span><span class="n">branch_label_image</span><span class="p">)</span>
+        
+        <span class="c1"># merge into features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="n">branch_lengths</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;branch_length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;branch_length&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># update graph edge weights with branch lengths</span>
+        <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;branch_length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]][</span><span class="s1">&#39;branch_length&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_find_neighboring_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_label</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">morphology</span>
+
+        <span class="n">branch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="n">query_label</span>
+        <span class="n">branch_point_coordinates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">branch</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="c1"># get bounding box around branch</span>
+        <span class="n">min_coords</span> <span class="o">=</span> <span class="n">branch_point_coordinates</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">max_coords</span> <span class="o">=</span> <span class="n">branch_point_coordinates</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+        <span class="c1"># Create a tuple of slices for each dimension</span>
+        <span class="n">slices</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="nb">slice</span><span class="p">(</span><span class="n">min_coord</span><span class="p">,</span> <span class="n">max_coord</span><span class="p">)</span> <span class="k">for</span> <span class="n">min_coord</span><span class="p">,</span> <span class="n">max_coord</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">min_coords</span><span class="p">,</span> <span class="n">max_coords</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Crop the image data using the slices,</span>
+        <span class="c1"># then expand the branch points to overlap with the neighboring objects</span>
+        <span class="n">cropped_branch</span> <span class="o">=</span> <span class="n">branch</span><span class="p">[</span><span class="n">slices</span><span class="p">]</span>
+        <span class="n">cropped_branch</span> <span class="o">=</span> <span class="n">morphology</span><span class="o">.</span><span class="n">binary_dilation</span><span class="p">(</span><span class="n">cropped_branch</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+        <span class="n">cropped_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">slices</span><span class="p">]</span>
+
+        <span class="n">touching_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_xor</span><span class="p">(</span><span class="n">cropped_branch</span><span class="p">,</span> <span class="n">cropped_data</span> <span class="o">==</span> <span class="n">query_label</span><span class="p">)</span> <span class="o">*</span> <span class="n">cropped_data</span>
+        <span class="n">connecting_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">touching_labels</span><span class="p">)</span>
+        <span class="n">connecting_labels</span> <span class="o">=</span> <span class="n">connecting_labels</span><span class="p">[</span><span class="n">connecting_labels</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">connecting_labels</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_detect_spines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Detect spines in the skeleton graph.</span>
+
+<span class="sd">        The spine is defined as the longest path between two degree 1 nodes in the skeleton graph.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        --------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">tqdm</span>
+        
+    
+        <span class="n">graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;spine&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># split in connected components</span>
+        <span class="n">connected_components</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">))</span>
+
+        <span class="c1"># find degree 1 nodes in connected components</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">connected_components</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">connected_components</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Finding spines&#39;</span><span class="p">):</span>
+            <span class="n">spine_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">component</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">graph</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">spine_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spine_nodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># measure distances between every pair of spine nodes</span>
+            <span class="n">spine_distances</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">spine_node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spine_nodes</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">spine_nodes</span><span class="p">)):</span>
+                    <span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">spine_node</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">spine_nodes</span><span class="p">[</span><span class="n">j</span><span class="p">])]</span>
+
+                    <span class="c1"># measure distance as per the edge attrbitue &#39;branch_length&#39;</span>
+                    <span class="n">distance</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">edge_labels</span> <span class="o">=</span> <span class="p">[]</span>
+
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="n">distance</span> <span class="o">+=</span> <span class="n">graph</span><span class="p">[</span><span class="n">path</span><span class="p">[</span><span class="n">k</span><span class="p">]][</span><span class="n">path</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]][</span><span class="s1">&#39;branch_length&#39;</span><span class="p">]</span>
+                        <span class="n">edge_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="n">path</span><span class="p">[</span><span class="n">k</span><span class="p">]][</span><span class="n">path</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]][</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+
+                    <span class="c1"># for k in range(len(path) - 1):</span>
+                    <span class="c1">#     distance += graph[path[k]][path[k+1]][&#39;branch_length&#39;]</span>
+
+                    <span class="n">spine_distances</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                        <span class="s1">&#39;spine_1&#39;</span><span class="p">:</span> <span class="n">spine_node</span><span class="p">,</span>
+                        <span class="s1">&#39;spine_2&#39;</span><span class="p">:</span> <span class="n">spine_nodes</span><span class="p">[</span><span class="n">j</span><span class="p">],</span>
+                        <span class="s1">&#39;distance&#39;</span><span class="p">:</span> <span class="n">distance</span><span class="p">,</span>
+                        <span class="s1">&#39;edge_labels&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">edge_labels</span><span class="p">]</span>
+                    <span class="p">})</span>
+
+            <span class="c1"># sort by distance</span>
+            <span class="n">spine_distances</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">spine_distances</span><span class="p">)</span>
+            <span class="n">spine_distances</span> <span class="o">=</span> <span class="n">spine_distances</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;distance&#39;</span><span class="p">)</span>
+
+            <span class="c1"># set spine attribute to 1 for nodes and edges in shortest path</span>
+            <span class="n">longest_shortest_path</span> <span class="o">=</span> <span class="n">spine_distances</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1">#graph.edges[shortest_path[&#39;spine_1&#39;], shortest_path[&#39;spine_2&#39;]][&#39;spine&#39;] = 1</span>
+            
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">longest_shortest_path</span><span class="p">[</span><span class="s1">&#39;edge_labels&#39;</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">label</span><span class="p">,</span> <span class="s1">&#39;spine&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                
+    <span class="k">def</span><span class="w"> </span><span class="nf">_graph_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate summary features of the skeleton graph.</span>
+
+<span class="sd">        The following features are calculated:</span>
+<span class="sd">        - n_branches:</span>
+<span class="sd">            The number of branches in the skeleton.</span>
+<span class="sd">        - n_endpoints:</span>
+<span class="sd">            The number of endpoints in the skeleton.</span>
+<span class="sd">        - n_branch_points:</span>
+<span class="sd">            The number of branch points in the skeleton.</span>
+<span class="sd">        - n_nodes:</span>
+<span class="sd">            The number of nodes in the skeleton, which is the sum of branch points and endpoints.</span>
+<span class="sd">        - n_cycle_basis:</span>
+<span class="sd">            The number of cycle basis in the skeleton. A cycle basis is a set of cycles that</span>
+<span class="sd">            can be used to generate all other cycles in a graph.</span>
+<span class="sd">        - n_possible_undirected_cycles:</span>
+<span class="sd">            The number of possible undirected cycles in the skeleton. An undirected cycle is a</span>
+<span class="sd">            path that starts and ends at the same node and visits each node only</span>
+<span class="sd">            once (except for the starting node).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        --------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">tqdm</span>
+
+        <span class="c1"># get subgraphs</span>
+        <span class="n">connected_components</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;n_branches&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;n_endpoints&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;n_branch_points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;n_nodes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">connected_components</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Calculating summary features&#39;</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">connected_components</span><span class="p">)):</span>
+            
+            <span class="n">n_branches</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">component</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span>
+            <span class="n">n_endpoints</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">component</span><span class="o">.</span><span class="n">nodes</span> <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">n_branchpoints</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">component</span><span class="o">.</span><span class="n">nodes</span> <span class="k">if</span> <span class="n">component</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">])</span>
+
+            <span class="c1"># cycle basis</span>
+            <span class="n">directed_graph</span> <span class="o">=</span> <span class="n">component</span><span class="o">.</span><span class="n">to_directed</span><span class="p">()</span>
+            <span class="n">possible_directed_cycles</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">simple_cycles</span><span class="p">(</span><span class="n">directed_graph</span><span class="p">))</span>
+
+            <span class="n">n_cycle_basis</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">cycle_basis</span><span class="p">(</span><span class="n">component</span><span class="p">))</span>
+            <span class="n">n_possible_undirected_cycles</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">possible_directed_cycles</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">])</span><span class="o">//</span><span class="mi">2</span>
+
+            <span class="c1"># add to features</span>
+            <span class="c1"># get label property of all edges and nodes</span>
+            <span class="n">edge_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">component</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="n">v</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">component</span><span class="o">.</span><span class="n">edges</span><span class="p">]</span>
+            <span class="n">node_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">component</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">component</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="n">edge_labels</span> <span class="o">+</span> <span class="n">node_labels</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="s1">&#39;n_branches&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_branches</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="s1">&#39;n_endpoints&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_endpoints</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="s1">&#39;n_branch_points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_branchpoints</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="s1">&#39;n_cycle_basis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_cycle_basis</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="s1">&#39;n_possible_undirected_cycles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_possible_undirected_cycles</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="s1">&#39;n_nodes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_branchpoints</span> <span class="o">+</span> <span class="n">n_endpoints</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Allyson Quinn Ryan, Johannes Soltwedel
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
