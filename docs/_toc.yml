@@ -10,6 +10,7 @@ options:
 parts:
 - caption: Examples
   chapters: 
+  - file: examples/ToskaSkeleton
   - file: examples/whole_skeleton_measurements_2d
   - file: examples/whole_skeleton_measurements_3d
   - file: examples/measure_local_thickness
@@ -24,6 +25,7 @@ parts:
 
 - caption: API
   chapters:
+  - file: api/ToskaSkeleton
   - file: api/skeletonization
   - file: api/graphs
   - file: api/measurement

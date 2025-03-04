@@ -15,7 +15,7 @@ from ._measurements import (analyze_single_skeleton,
                             analyze_skeletons,
                             analyze_single_skeleton_network,
                             calculate_branch_lengths)
-
+from .ToskaSkeleton import ToskaSkeleton
 
 __all__ = ['generate_labeled_skeletonization',
               'parse_single_skeleton',
