@@ -3,6 +3,7 @@ def test_skeletonization():
     import numpy as np
     from skimage.data import binary_blobs
     from skimage.measure import label
+    from napari.layers import Labels
 
     labels = label(binary_blobs(rng=0))
     skeleton = nts.generate_labeled_skeletonization(labels)
@@ -16,7 +17,8 @@ def test_skeletonization():
     assert labeled_skeleton.max() == 15
 
     # test comprehensive analysis
-    nts.analyze_skeleton_comprehensive(labels, neighborhood='n8')
+    labels_input = Labels(data=labels)
+    nts.analyze_skeleton_comprehensive(labels_input, neighborhood='n8')
 
 
 def test_simple_skeleton():
