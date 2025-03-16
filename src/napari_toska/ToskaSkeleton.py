@@ -56,7 +56,7 @@ class ToskaSkeleton(Labels):
     """
 
     def __init__(self, labels_data: "napari.types.LabelsData", neighborhood: str, **kwargs):
-        super().__init__(labels_data, **kwargs)
+        super().__init__(np.asarray(labels_data), **kwargs)
 
         self._neighborhood = neighborhood
         self.graph = nx.Graph()
@@ -355,3 +355,27 @@ class ToskaSkeleton(Labels):
             self.features.loc[self.features['label'].isin(labels), 'n_cycle_basis'] = n_cycle_basis
             self.features.loc[self.features['label'].isin(labels), 'n_possible_undirected_cycles'] = n_possible_undirected_cycles
             self.features.loc[self.features['label'].isin(labels), 'n_nodes'] = n_branchpoints + n_endpoints
+
+
+def analyze_skeleton_comprehensive(
+        labels_input: Labels,
+        neighborhood: str = 'n8',
+        viewer: 'napari.Viewer' = None) -> Labels:
+    """
+    Run a complete Skeleton analysis using napari-toska
+
+    Parameters:
+    -----------
+    labels_data: 
+    """
+    from napari_skimage_regionprops import TableWidget
+    Skeleton = ToskaSkeleton(labels_data=labels_input.data,
+                             neighborhood=neighborhood)
+    Skeleton.analyze()
+    Skeleton.name = f'Skeleton of {labels_input.name}'
+
+    if viewer is not None:
+        table_widget = TableWidget(viewer=viewer, layer=Skeleton)
+        viewer.window.add_dock_widget(table_widget)
+
+    return Skeleton
