@@ -37,7 +37,7 @@ def test_edge_case():
         [0, 0, 1, 0, 0, 0, 1, 0, 0,],
         [0, 0, 0, 0, 0, 0, 0, 1, 0,],
         [0, 0, 0, 0, 0, 0, 0, 0, 0,],
-    ])
+    ], dtype=np.uint8)
 
     Skeleton = nts.ToskaSkeleton(labels, neighborhood='n8')
     Skeleton.analyze()
