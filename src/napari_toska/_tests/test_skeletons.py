@@ -15,6 +15,9 @@ def test_skeletonization():
     labeled_skeleton = Skeleton.create_feature_map(feature='skeleton_id')
     assert labeled_skeleton.max() == 15
 
+    # test comprehensive analysis
+    nts.analyze_skeleton_comprehensive(labels, neighborhood='n8')
+
 
 def test_simple_skeleton():
     import napari_toska as nts
