@@ -154,7 +154,7 @@ class ToskaSkeleton(Labels):
             connecting_labels = self._find_neighboring_labels(row['label'])
 
             # a branch should connect to exactly two other objects
-            if len(connecting_labels) == 0:
+            if len(connecting_labels) != 2:
                 self.features.iloc[i, self.features.columns.get_loc('object_type')] = 1
                 print('detected malformatted label: {}'.format(int(row['label'])),
                       'changed type from 2 (branch) -> 1 (end point)')
@@ -208,6 +208,13 @@ class ToskaSkeleton(Labels):
         # get bounding box around branch
         min_coords = branch_point_coordinates.min(axis=0) - 1
         max_coords = branch_point_coordinates.max(axis=0) + 2
+
+        # check if min/max values exceed array dimensions
+        min_coords[min_coords < 0] = 0
+        for i in range(len(max_coords)):
+            if max_coords[i] > branch.shape[i]:
+                max_coords[i] = branch.shape[i] 
+
         # Create a tuple of slices for each dimension
         slices = tuple(
             slice(min_coord, max_coord) for min_coord, max_coord in zip(min_coords, max_coords)
