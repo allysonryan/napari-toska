@@ -3,6 +3,11 @@ display_name: Napari Topological Skeleton Analysis
 contributions:
   commands:
 
+    # Analyze everything
+    - id: napari-toska.analyze_skeleton
+      python_name: napari_toska:analyze_skeleton_comprehensive
+      title: Analyze Skeletons
+
     # Labeling
     - id: napari-toska.labeled_skeleton
       python_name: napari_toska._labeled_skeletonization:generate_labeled_skeletonization
@@ -28,6 +33,9 @@ contributions:
       title: Measure branch lengths
 
   widgets:
+    - command: napari-toska.analyze_skeleton
+      autogenerate: true
+      display_name: Skeleton analysis
     - command: napari-toska.labeled_skeleton
       autogenerate: true
       display_name: Make labeled skeleton image
