@@ -16,6 +16,33 @@ def test_skeletonization():
     assert labeled_skeleton.max() == 15
 
 
+def test_edge_case():
+    """
+    This test checks whether the Toska Analysis works
+    if parts of the skeleton are located at the edge of the image.
+    """
+    import numpy as np
+    import napari_toska as nts
+
+    labels = np.array([
+        [0, 0, 0, 0, 0, 0, 0, 0, 0,],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0,],
+        [0, 0, 1, 0, 0, 0, 1, 0, 0,],
+        [0, 0, 0, 1, 0, 1, 0, 0, 2,],
+        [0, 0, 0, 0, 1, 0, 0, 0, 2,],
+        [0, 0, 0, 0, 1, 0, 2, 2, 2,],
+        [0, 0, 0, 0, 1, 0, 0, 2, 2,],
+        [0, 0, 0, 0, 1, 0, 0, 0, 2,],
+        [0, 0, 0, 1, 0, 1, 0, 0, 2,],
+        [0, 0, 1, 0, 0, 0, 1, 0, 0,],
+        [0, 0, 0, 0, 0, 0, 0, 1, 0,],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0,],
+    ])
+
+    Skeleton = nts.ToskaSkeleton(labels, neighborhood='n8')
+    Skeleton.analyze()
+
+
 def test_simple_skeleton():
     import napari_toska as nts
     from skimage.morphology import skeletonize
