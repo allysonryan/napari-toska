@@ -56,7 +56,7 @@ class ToskaSkeleton(Labels):
     """
 
     def __init__(self, labels_data: "napari.types.LabelsData", neighborhood: str, **kwargs):
-        super().__init__(labels_data, **kwargs)
+        super().__init__(np.asarray(labels_data), **kwargs)
 
         self._neighborhood = neighborhood
         self.graph = nx.Graph()
